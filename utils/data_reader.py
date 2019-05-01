@@ -3,7 +3,18 @@
 from scipy.io import loadmat
 import pandas as pd
 from . import custom_functions
+#import custom_functions
 
+def Bpod_Sound_Presentation(path_to_file):
+    mat = loadmat(path_to_file, squeeze_me=True)
+    data = mat['SessionData']
+    stim = data['Stimulus'][()]
+    data_dict = {
+        "Stimulus": stim,
+        "data": data
+    }
+    return data_dict
+    
 
 def mat_parser(path_to_file):
     mat = loadmat(path_to_file, squeeze_me=True)
@@ -27,7 +38,7 @@ def mat_parser(path_to_file):
                                     list(events['TrialSideValues'][()])])
     trial_side = trial_side.transpose()
     trial_side.columns = ['TrialSideTimes', 'TrialSideValues']
-    trial_side['TrialSideVM'] = trial_side['TrialSideValues'] * 80
+    trial_side['TrialSideVM'] = trial_side['TrialSideValues'] * 40
 
     # Get data about the successes and failures
     target_reached = pd.DataFrame(

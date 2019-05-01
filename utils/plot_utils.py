@@ -19,14 +19,14 @@ def axvlines(xs, ax=None, **plot_kwargs):
     lims = ax.get_ylim()
     x_points = np.repeat(xs[:, None], repeats=3, axis=1).flatten()
     y_points = np.repeat(np.array(lims + (np.nan, ))[None, :], repeats=len(xs), axis=0).flatten()
-    plot = ax.plot(x_points, y_points, scaley = False, **plot_kwargs)
+    plot = ax.plot(x_points, y_points, scaley=False, **plot_kwargs)
     return plot
 
 
-def summary_figure(mydict):
+def summary_figure(mydict, subplot_time_length=300):
     # generate a summary figure of the training
     # calculate the number of subplots needed
-    subplot_time_length = 300  # 5 minutes
+    # subplot_time_length = 300  # 5 minutes
     init_time = mydict['Moving_az']['MovingAzimuthTimes'][0]
     final_time = mydict['Moving_az']['MovingAzimuthTimes'][mydict['Moving_az'].shape[0] - 1]
     duration = final_time - init_time
@@ -35,12 +35,9 @@ def summary_figure(mydict):
     fig, axs = plt.subplots(number_of_subplots, 1, sharey=False, sharex=False, figsize=(18, 3 * number_of_subplots),
                             dpi=80, facecolor='w', edgecolor='k')
     for i in range(0, number_of_subplots):
-        axs[i].plot('MovingAzimuthTimes', 'MovingAzimuthValues', data=mydict['Moving_az'], color='blue', linewidth=1)
-        axs[i].plot('TrialSideTimes', 'TrialSideVM', data=mydict['Trial_side'], color='grey', marker='.', linewidth=0.5)
-        axs[i].plot(mydict['Target_reached'], len(mydict['Target_reached']) * [100], '.', color='green', alpha=.5)
-        axs[i].plot(mydict['Wrong_reached'], len(mydict['Wrong_reached']) * [100], '.', color='red', alpha=.5)
-        axs[i].set_xlim(init_time + (i) * subplot_time_length, init_time + (i + 1) * subplot_time_length)
-        axvlines(mydict['Lick_events'], ax=axs[i], linewidth=0.2, color='gray')
+        summary_plot(mydict, ax=axs[i])
+        axs[i].set_xlim(init_time + i * subplot_time_length, init_time + (i + 1) * subplot_time_length)
+        axs[i].set_ylim(-50, 60)
     axs[i].legend()
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
     plt.suptitle(mydict['Main_name'] + '_summary', size=24)
@@ -48,3 +45,21 @@ def summary_figure(mydict):
     fig.text(0, 0.5, 'Moving Azimuth', va='center', rotation='vertical')
 
     return fig
+
+
+def summary_plot(mydict, ax=None):
+    """
+    Create a summary plot with info about the training session
+    :param mydict: dictionary containing the data
+    :param ax: axis of the plot
+    :return: axis with plot data
+    """
+    if ax is None:
+        ax = plt.gca()
+    ax.plot('MovingAzimuthTimes', 'MovingAzimuthValues', data=mydict['Moving_az'], color='blue', linewidth=1)
+    ax.plot('TrialSideTimes', 'TrialSideVM', data=mydict['Trial_side'], color='grey', marker='.', linewidth=0.5)
+    ax.plot(mydict['Target_reached'], len(mydict['Target_reached']) * [50], '.', color='green', alpha=.5)
+    ax.plot(mydict['Wrong_reached'], len(mydict['Wrong_reached']) * [50], '.', color='red', alpha=.5)
+    axvlines(mydict['Lick_events'], ax=ax, linewidth=0.2, color='gray')
+
+    return ax
