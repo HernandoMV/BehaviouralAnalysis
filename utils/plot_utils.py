@@ -63,3 +63,43 @@ def summary_plot(mydict, ax=None):
     axvlines(mydict['Lick_events'], ax=ax, linewidth=0.2, color='gray')
 
     return ax
+
+
+
+def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
+                         realPred=None, fakePred=None, label = 'data', **plot_kwargs):
+    #Plots different various features of the psychometric performance
+    
+    if ax is None:
+        ax = plt.gca()
+    
+    # This plots all the fake data:
+    #plt.plot(predictDif, fakePred, 'k-', lw=0.5, alpha=0.2)
+    
+    # plot percentiles if fake data is provided
+    if fakePred is not None:
+        percentiles = np.percentile(fakePred, [2.5, 97.5], axis=1).T
+        ax.fill_between(predictDif.reshape(-1), percentiles[:,0], percentiles[:,1], alpha = 0.2, **plot_kwargs)
+
+    # plot the psychometric performance if the predictions are provided
+    if realPred is not None:
+        ax.plot(predictDif, realPred, '-', **plot_kwargs)
+    
+    # plot the data
+    if dataPerf is not None:
+        ax.plot(dataDif, dataPerf, 'o', ms = 8, label = label, **plot_kwargs)
+
+    # make the plot pretty
+    if dataDif is not None:
+        ax.set_xticks(dataDif)
+    ax.set_ylabel('% Rightward choices')
+    ax.set_xlabel('% High tones')
+    ax.set_xlim(0., 100.)
+    ax.set_ylim(-2., 102.)
+    ax.legend(bbox_to_anchor=(1.05, 1), loc=0, borderaxespad=0.)
+    ax.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
+    # get rid of the frame
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    
+    return ax

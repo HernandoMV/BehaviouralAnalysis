@@ -4,6 +4,8 @@ import numpy as np
 import re
 import ntpath
 from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
+
 # define a function that returns only those indices of a binary! vector (0 or 1) where some values are
 # first different than 0
 
@@ -35,31 +37,33 @@ def ParseForTimes(files):
 def PsychPerformance(trialsDif, sideSelected):    
     # function to calculate psychometric performance and fit logistic regression to the data
     # returns a dictionary
-    
-    # masks to remove nans for logistic regression
-    nan_mask = ~(np.isnan(trialsDif) | np.isnan(sideSelected))
-    #logistic regression
+
     if trialsDif.any(): # in case an empty thing is passed
-        clf = LogisticRegression().fit(trialsDif[nan_mask, np.newaxis], sideSelected[nan_mask])
-    else:
-        clf = np.nan
-    # Calculate performance
-    # Initialize values
-    difficulty = np.unique(trialsDif[~np.isnan(trialsDif)])
-    performance = np.full(len(difficulty), np.nan)
-    for i in range(len(difficulty)):
-        if np.nansum(sideSelected[trialsDif==difficulty[i]])>0:
-            performance[i] = 100 * (np.nanmean(sideSelected[trialsDif==difficulty[i]]) - 1)
-        else:
-            performance[i] = np.nan
-
-
-    DictToReturn = {
-            'Difficulty': difficulty,
-            'Performance': performance,
-            'Logit': clf
-            }
     
+        # masks to remove nans for logistic regression
+        nan_mask = ~(np.isnan(trialsDif) | np.isnan(sideSelected))
+        #logistic regression
+        clf = LogisticRegression().fit(trialsDif[nan_mask, np.newaxis], sideSelected[nan_mask])
+    
+        # Calculate performance
+        # Initialize values
+        difficulty = np.unique(trialsDif[~np.isnan(trialsDif)])
+        performance = np.full(len(difficulty), np.nan)
+        for i in range(len(difficulty)):
+            if np.nansum(sideSelected[trialsDif==difficulty[i]])>0:
+                performance[i] = 100 * (np.nanmean(sideSelected[trialsDif==difficulty[i]]) - 1)
+            else:
+                performance[i] = np.nan
+    
+    
+        DictToReturn = {
+                'Difficulty': difficulty,
+                'Performance': performance,
+                'Logit': clf
+                }
+    else:
+        DictToReturn = {}
+        
     return DictToReturn
 
 
@@ -118,6 +122,7 @@ def BootstrapPerformances(trialsDif, sideSelected, ntimes, prediction_difficulti
         predictPerFake[:, i] = 100 * clf_fake.predict_proba(prediction_difficulties)[:, 1]
         
     return predictPerFake
+
 
 
 
