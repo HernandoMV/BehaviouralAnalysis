@@ -29,8 +29,11 @@ def ParseForTimes(files):
     # looks for 8digits followed by underscore and 6digits (bpod style)
     dates = []
     for title in files:
-        match = re.search(r'\d{8}_\d{6}', ntpath.basename(title))
-        dates.append(match.group())        
+        try:
+            match = re.search(r'\d{8}_\d{6}', ntpath.basename(title))
+            dates.append(match.group())
+        except:
+            dates.append('notFound')
     return dates
 
 
@@ -43,8 +46,12 @@ def PsychPerformance(trialsDif, sideSelected):
         # masks to remove nans for logistic regression
         nan_mask = ~(np.isnan(trialsDif) | np.isnan(sideSelected))
         #logistic regression
-        clf = LogisticRegression().fit(trialsDif[nan_mask, np.newaxis], sideSelected[nan_mask])
-    
+        try:
+            clf = LogisticRegression().fit(trialsDif[nan_mask, np.newaxis], sideSelected[nan_mask])
+        except:
+            # in case a model cannot be fitted (e.g. mouse always goes to the left)
+            # fit model on dummy data
+            clf = LogisticRegression().fit(np.array([0,0,100,100]).reshape(-1, 1), np.array([1,0,1,0]))
         # Calculate performance
         # Initialize values
         difficulty = np.unique(trialsDif[~np.isnan(trialsDif)])
@@ -118,12 +125,76 @@ def BootstrapPerformances(trialsDif, sideSelected, ntimes, prediction_difficulti
     for i in range(predictPerFake.shape[1]):
         # create fake data
         fake_data = generate_fake_data(difficulties, sideselection)
-        clf_fake = LogisticRegression().fit(difficulties.reshape(-1, 1), fake_data)
+        try:
+            clf_fake = LogisticRegression().fit(difficulties.reshape(-1, 1), fake_data)
+        except:
+            # in case a model cannot be fitted (e.g. mouse always goes to the left)
+            # fit model on dummy data
+            clf_fake = LogisticRegression().fit(np.array([0,0,100,100]).reshape(-1, 1), np.array([1,0,1,0]))
+            
         predictPerFake[:, i] = 100 * clf_fake.predict_proba(prediction_difficulties)[:, 1]
         
     return predictPerFake
 
 
+def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
+    # function to create a dataframe out of the session
+    # each trial is an entry on the dataframe
 
+    # if the session is empty output a message
+    if not 'nTrials' in SessionData:
+        print('Session is empty')
+        return pd.DataFrame()
+    
+    numberOfTrials = SessionData['nTrials']
+    
+    # protocol information 
+    ts = SessionData['TrialSettings']
+    protocols = [ts[0]['GUIMeta']['TrainingLevel']['String'][x] for x in [y['GUI']['TrainingLevel'] - 1 for y in ts]]
+    stimulations = [ts[0]['GUIMeta']['OptoStim']['String'][x] for x in [y['GUI']['OptoStim'] - 1 for y in ts]]    
+    if not np.logical_and(len(protocols) == numberOfTrials, len(stimulations) == numberOfTrials):
+        print('protocols and/or stimulations length do not match with the number of trials')
+        return pd.DataFrame()
+    
+    # trial events
+    trev = [x['Events'] for x in SessionData['RawEvents']['Trial']]
+    if not len(trev)==numberOfTrials:
+        print('trial events length do not match with the number of trials')
+        return pd.DataFrame()
+    
+    # trial states
+    trst = [x['States'] for x in SessionData['RawEvents']['Trial']]
+    if not len(trst)==numberOfTrials:
+        print('trial states length do not match with the number of trials')
+        return pd.DataFrame()
+    
+    # calculate the cumulative performance
+    firstpokecorrect = SessionData['FirstPokeCorrect'][0:numberOfTrials]
+    correct_cp = np.cumsum(firstpokecorrect == 1)
+    incorrect_cp = np.cumsum(firstpokecorrect == 0)
+    cumper = 100 * correct_cp / (correct_cp + incorrect_cp)
+    
+    DFtoReturn = pd.DataFrame({'AnimalID': np.repeat(AnimalID, numberOfTrials),
+                               'SessionTime': np.repeat(SessionID, numberOfTrials),
+                               'Protocol': protocols,
+                               'Stimulation': stimulations,
+                               'TrialIndex': list(range(numberOfTrials)),
+                               'TrialHighPerc': SessionData['TrialHighPerc'][0:numberOfTrials],
+                               'Outcomes': SessionData['Outcomes'][0:numberOfTrials],
+                               'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
+                               'ChosenSide': SessionData['ChosenSide'][0:numberOfTrials],
+                               'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
+                               'FirstPokeCorrect': firstpokecorrect,
+                               'FirstPoke': SessionData['FirstPoke'][0:numberOfTrials],
+                               'TrialSide': SessionData['TrialSide'][0:numberOfTrials],
+                               'TrialSequence': SessionData['TrialSequence'][0:numberOfTrials],
+                               'ResponseTime': SessionData['ResponseTime'][0:numberOfTrials],
+                               'TrialStartTimestamp': SessionData['TrialStartTimestamp'],
+                               'CumulativePerformance': cumper,
+                               'TrialEvents': trev,
+                               'TrialStates': trst
+                              })
+    
+    return DFtoReturn
 
 
