@@ -5,6 +5,9 @@ import re
 import ntpath
 from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
+import pandas as pd
+import datetime
+
 
 # define a function that returns only those indices of a binary! vector (0 or 1) where some values are
 # first different than 0
@@ -36,6 +39,28 @@ def ParseForTimes(files):
             dates.append('notFound')
     return dates
 
+
+def ParseForDates(files):
+    # looks for 8digits (bpod style)
+    dates = []
+    for title in files:
+        try:
+            match = re.search(r'\d{8}', ntpath.basename(title))
+            dates.append(match.group())
+        except:
+            dates.append('notFound')
+    return dates
+
+
+def MakeDatesPretty(inputDates):
+    # assumes input style YYYYMMDD_HHMMSS
+    outputDates = []
+    for date in inputDates:        
+        x = datetime.datetime(int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]))
+        outputDates.append(x.strftime("%b%d %H:%M")) 
+
+    return(outputDates)
+    
 
 def PsychPerformance(trialsDif, sideSelected):    
     # function to calculate psychometric performance and fit logistic regression to the data
@@ -174,6 +199,10 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
     incorrect_cp = np.cumsum(firstpokecorrect == 0)
     cumper = 100 * correct_cp / (correct_cp + incorrect_cp)
     
+    #calculate when there is a side-switching event
+    TriSide = np.array(SessionData['TrialSide'][0:numberOfTrials])
+    SwitchSide = 1*((TriSide - np.insert(TriSide[:-1], 0, 0)) != 0)
+    
     DFtoReturn = pd.DataFrame({'AnimalID': np.repeat(AnimalID, numberOfTrials),
                                'SessionTime': np.repeat(SessionID, numberOfTrials),
                                'Protocol': protocols,
@@ -186,15 +215,23 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
                                'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
                                'FirstPokeCorrect': firstpokecorrect,
                                'FirstPoke': SessionData['FirstPoke'][0:numberOfTrials],
-                               'TrialSide': SessionData['TrialSide'][0:numberOfTrials],
+                               'TrialSide': TriSide,
                                'TrialSequence': SessionData['TrialSequence'][0:numberOfTrials],
                                'ResponseTime': SessionData['ResponseTime'][0:numberOfTrials],
                                'TrialStartTimestamp': SessionData['TrialStartTimestamp'],
                                'CumulativePerformance': cumper,
+                               'SwitchSide': SwitchSide,
                                'TrialEvents': trev,
                                'TrialStates': trst
                               })
     
     return DFtoReturn
 
+
+def identifyIdx(datatimes, ntrialsList, ntrials_thr):
+    idxlist = []
+    for i in (range(len(datatimes))):
+        if np.logical_or(datatimes[i] == 'notFound', ntrialsList[i] < ntrials_thr):
+            idxlist.append(i)
+    return sorted(idxlist, reverse=True)
 
