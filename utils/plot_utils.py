@@ -83,7 +83,7 @@ def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
 
     # plot the psychometric performance if the predictions are provided
     if realPred is not None:
-        ax.plot(predictDif, realPred, '-', **plot_kwargs)
+        ax.plot(predictDif.reshape(-1), realPred, '-', **plot_kwargs)
     
     # plot the data
     if dataPerf is not None:

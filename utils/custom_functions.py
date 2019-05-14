@@ -3,6 +3,8 @@
 import numpy as np
 import re
 import ntpath
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -275,3 +277,39 @@ def AnalyzeSwithTrials(df):
         
     # merge into a single df and return
     return pd.concat(sessionsInfo, ignore_index=True)
+
+
+# function to process the data of an experiment for psychometric performance plots:
+def PP_ProcessExperiment(SessionData, bootstrap=True):
+    # SessionData is a dataframe that needs to have the following column names:
+    # 'TrialHighPerc'
+    # 'FirstPoke'
+    
+    diffs = np.array(SessionData['TrialHighPerc'])
+    choices = np.array(SessionData['FirstPoke'])
+
+    # Calculate psychometric performance parameters
+    PsyPer = PsychPerformance(trialsDif=diffs, sideSelected=choices)
+    # predict data
+    predictDif = np.linspace(1, 100, 2000).reshape(-1, 1)
+    if PsyPer:
+        predictPer = 100 * PsyPer['Logit'].predict_proba(predictDif)[:,1]
+    else: # needed for the return
+        predictPer = np.nan            
+        
+    # Bootstrap on fake data (generated inside the bootstrap function)
+    fakePredictions = np.nan
+    if bootstrap:
+        bootstrap_ntimes = 1000
+        np.random.seed(12233)  # fixed random seed for reproducibility
+        if PsyPer:
+            fakePredictions = BootstrapPerformances(trialsDif = diffs,
+                                                    sideSelected = choices,
+                                                    ntimes = bootstrap_ntimes,
+                                                    prediction_difficulties = predictDif)          
+
+    # return what is needed for the plot
+    return predictDif, PsyPer, fakePredictions, predictPer
+
+
+   
