@@ -67,7 +67,8 @@ def summary_plot(mydict, ax=None):
 
 
 def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
-                         realPred=None, fakePred=None, label = 'data', **plot_kwargs):
+                         realPred=None, fakePred=None, errorBars=None,
+                         label = 'data', **plot_kwargs):
     #Plots different various features of the psychometric performance
     
     if ax is None:
@@ -85,6 +86,12 @@ def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
     if realPred is not None:
         ax.plot(predictDif.reshape(-1), realPred, '-', **plot_kwargs)
     
+    # plot the error bars
+    if errorBars is not None:
+        for i,EBlength in enumerate(errorBars):
+            ax.plot([dataDif[i], dataDif[i]], [dataPerf[i]-EBlength/2, dataPerf[i]+EBlength/2],
+                    '-', **plot_kwargs)
+            
     # plot the data
     if dataPerf is not None:
         ax.plot(dataDif, dataPerf, 'o', ms = 8, label = label, **plot_kwargs)

@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 import pandas as pd
 import datetime
-
+from itertools import chain, compress
 
 # define a function that returns only those indices of a binary! vector (0 or 1) where some values are
 # first different than 0
@@ -203,7 +203,11 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
     
     #calculate when there is a side-switching event
     TriSide = np.array(SessionData['TrialSide'][0:numberOfTrials])
-    SwitchSide = 1*((TriSide - np.insert(TriSide[:-1], 0, 0)) != 0)
+    SwitchSide = 1 * ((TriSide - np.insert(TriSide[:-1], 0, 0)) != 0)
+    
+    #add information about the choice in the previous trial'
+    ChoSide = SessionData['ChosenSide'][0:numberOfTrials]
+    PrevTriChoice = np.insert(ChoSide[:-1], 0, np.nan)
     
     DFtoReturn = pd.DataFrame({'AnimalID': np.repeat(AnimalID, numberOfTrials),
                                'SessionTime': np.repeat(SessionID, numberOfTrials),
@@ -213,7 +217,7 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
                                'TrialHighPerc': SessionData['TrialHighPerc'][0:numberOfTrials],
                                'Outcomes': SessionData['Outcomes'][0:numberOfTrials],
                                'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
-                               'ChosenSide': SessionData['ChosenSide'][0:numberOfTrials],
+                               'ChosenSide': ChoSide,
                                'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
                                'FirstPokeCorrect': firstpokecorrect,
                                'FirstPoke': SessionData['FirstPoke'][0:numberOfTrials],
@@ -223,6 +227,7 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
                                'TrialStartTimestamp': SessionData['TrialStartTimestamp'],
                                'CumulativePerformance': cumper,
                                'SwitchSide': SwitchSide,
+                               'PreviousChoice': PrevTriChoice,
                                'TrialEvents': trev,
                                'TrialStates': trst
                               })
@@ -239,7 +244,7 @@ def identifyIdx(datatimes, ntrialsList, ntrials_thr):
 
 
 # Analyze this with the optotrials as well
-def AnalyzeSwithTrials(df):
+def AnalyzeSwitchTrials(df):
     # df is a dataframe containing the following columns:
     # 'SwitchSide'
     # 'FirstPokeCorrect'
@@ -280,7 +285,7 @@ def AnalyzeSwithTrials(df):
 
 
 # function to process the data of an experiment for psychometric performance plots:
-def PP_ProcessExperiment(SessionData, bootstrap=True):
+def PP_ProcessExperiment(SessionData, bootstrap=None, error_bars=None):
     # SessionData is a dataframe that needs to have the following column names:
     # 'TrialHighPerc'
     # 'FirstPoke'
@@ -294,22 +299,44 @@ def PP_ProcessExperiment(SessionData, bootstrap=True):
     predictDif = np.linspace(1, 100, 2000).reshape(-1, 1)
     if PsyPer:
         predictPer = 100 * PsyPer['Logit'].predict_proba(predictDif)[:,1]
+        
+        # Calculate the error bars if asked to
+        if error_bars is not None:
+            EBdata = SessionData.groupby(by=error_bars).apply(getEBdata)
+            # flatten the lists
+            EB_diffs_flat = list(chain(*[x['Difficulty'] for x in EBdata]))
+            EB_perfs_flat = list(chain(*[x['Performance'] for x in EBdata]))
+            # calculate error bars for each difficulty
+            Std_list = [np.std(list(compress(EB_perfs_flat, EB_diffs_flat == dif))) for dif in PsyPer['Difficulty']]
+        
     else: # needed for the return
-        predictPer = np.nan            
+        predictPer = np.nan
+        Std_list = np.nan
         
     # Bootstrap on fake data (generated inside the bootstrap function)
     fakePredictions = np.nan
-    if bootstrap:
-        bootstrap_ntimes = 1000
+    if bootstrap is not None:
         np.random.seed(12233)  # fixed random seed for reproducibility
         if PsyPer:
             fakePredictions = BootstrapPerformances(trialsDif = diffs,
                                                     sideSelected = choices,
-                                                    ntimes = bootstrap_ntimes,
+                                                    ntimes = bootstrap,
                                                     prediction_difficulties = predictDif)          
 
     # return what is needed for the plot
-    return predictDif, PsyPer, fakePredictions, predictPer
+    return predictDif, PsyPer, fakePredictions, predictPer, Std_list
 
+
+def getEBdata(SessionData):
+    # SessionData is a dataframe that needs to have the following column names:
+    # 'TrialHighPerc'
+    # 'FirstPoke'
+    
+    diffs = np.array(SessionData['TrialHighPerc'])
+    choices = np.array(SessionData['FirstPoke'])
+    
+    PsyPer = PsychPerformance(trialsDif=diffs, sideSelected=choices)
+    
+    return PsyPer
 
    
