@@ -3,10 +3,7 @@
 import numpy as np
 import re
 import ntpath
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.linear_model import LogisticRegression
-import matplotlib.pyplot as plt
 import pandas as pd
 import datetime
 from itertools import chain, compress
@@ -57,10 +54,12 @@ def ParseForDates(files):
 def MakeDatesPretty(inputDates):
     # assumes input style YYYYMMDD_HHMMSS
     outputDates = []
-    for date in inputDates:        
-        x = datetime.datetime(int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]))
-        outputDates.append(x.strftime("%b%d %H:%M")) 
-
+    for date in inputDates: 
+        try:
+            x = datetime.datetime(int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]))
+            outputDates.append(x.strftime("%b%d %H:%M")) 
+        except:
+            outputDates.append('notFound')
     return(outputDates)
     
 
@@ -178,10 +177,28 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
     # protocol information 
     ts = SessionData['TrialSettings']
     protocols = [ts[0]['GUIMeta']['TrainingLevel']['String'][x] for x in [y['GUI']['TrainingLevel'] - 1 for y in ts]]
-    stimulations = [ts[0]['GUIMeta']['OptoStim']['String'][x] for x in [y['GUI']['OptoStim'] - 1 for y in ts]]    
+    stimulations = [ts[0]['GUIMeta']['OptoStim']['String'][x] for x in [y['GUI']['OptoStim'] - 1 for y in ts]]
+    
+    # muscimol
+    yList = []
+    for y in ts:
+        try:
+            yList.append(y['GUI']['Muscimol'] - 1)
+        except:
+            yList.append(0)
+    muscimol = []
+    for x in yList:
+        try:
+            muscimol.append(ts[0]['GUIMeta']['Muscimol']['String'][x])
+        except:
+            muscimol.append('No')
+    
     if not np.logical_and(len(protocols) == numberOfTrials, len(stimulations) == numberOfTrials):
         print('protocols and/or stimulations length do not match with the number of trials')
         return pd.DataFrame()
+    CenterPortDuration = [x['GUI']['CenterPortDuration'] for x in ts]
+    Contingency = [x['GUI']['Contingency'] for x in ts]
+    RewardAmount = [x['GUI']['RewardAmount'] for x in ts]
     
     # trial events
     trev = [x['Events'] for x in SessionData['RawEvents']['Trial']]
@@ -206,21 +223,23 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
     SwitchSide = 1 * ((TriSide - np.insert(TriSide[:-1], 0, 0)) != 0)
     
     #add information about the choice in the previous trial'
-    ChoSide = SessionData['ChosenSide'][0:numberOfTrials]
-    PrevTriChoice = np.insert(ChoSide[:-1], 0, np.nan)
+    FirstPoke = SessionData['FirstPoke'][0:numberOfTrials]
+    PrevTriChoice = np.insert(np.asfarray(FirstPoke[:-1]), 0, np.nan)
     
     DFtoReturn = pd.DataFrame({'AnimalID': np.repeat(AnimalID, numberOfTrials),
                                'SessionTime': np.repeat(SessionID, numberOfTrials),
                                'Protocol': protocols,
                                'Stimulation': stimulations,
+                               'Muscimol': muscimol,
+                               'CenterPortDuration': CenterPortDuration,
+                               'Contingency': Contingency,
+                               'RewardAmount': RewardAmount,
                                'TrialIndex': list(range(numberOfTrials)),
                                'TrialHighPerc': SessionData['TrialHighPerc'][0:numberOfTrials],
                                'Outcomes': SessionData['Outcomes'][0:numberOfTrials],
                                'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
-                               'ChosenSide': ChoSide,
-                               'OptoStim': SessionData['OptoStim'][0:numberOfTrials],
                                'FirstPokeCorrect': firstpokecorrect,
-                               'FirstPoke': SessionData['FirstPoke'][0:numberOfTrials],
+                               'FirstPoke': FirstPoke,
                                'TrialSide': TriSide,
                                'TrialSequence': SessionData['TrialSequence'][0:numberOfTrials],
                                'ResponseTime': SessionData['ResponseTime'][0:numberOfTrials],
@@ -308,7 +327,8 @@ def PP_ProcessExperiment(SessionData, bootstrap=None, error_bars=None):
             EB_perfs_flat = list(chain(*[x['Performance'] for x in EBdata]))
             # calculate error bars for each difficulty
             Std_list = [np.std(list(compress(EB_perfs_flat, EB_diffs_flat == dif))) for dif in PsyPer['Difficulty']]
-        
+        else:
+            Std_list = np.nan
     else: # needed for the return
         predictPer = np.nan
         Std_list = np.nan
@@ -339,4 +359,122 @@ def getEBdata(SessionData):
     
     return PsyPer
 
-   
+
+def timeDifferences(listOfDates):
+    '''
+    Return the absolute time, in days, of elements in a list of dates, related to the first
+    :param listOfDates: list of size X of dates. Format: YYYYMMDD_HHMMSS
+    :return: array of size X of absolute time 
+    '''
+    abstimeList = []
+    for date in listOfDates:
+        strList = [int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]), int(date[13:15])]
+        intList = list(map(int, strList))
+        # Calculate absolute time in days
+        
+        multipliers = [365, 30 ,1 ,1/24 ,1/(24*60), 1/(24*60*60)]
+        mulList = [a*b for a,b in zip(intList,multipliers)]
+        abstime = sum(mulList)
+        abstimeList.append(abstime)
+        
+    diftime = np.array(abstimeList) - abstimeList[0]
+    
+    return diftime
+
+
+def RBias(FirstPokes, FirstPokesCorrect):
+    '''
+    %Returns the bias to the right
+    % FirstPokes is a vector of 1s and 2s (Left or Right), indicating the poked port
+    % FirstPokesCorrect is a 0 and 1 vector (wrong or correct poke)
+    % Both could have NaN values
+    
+    % Returns from -1 to 1. 0 Being not biased, 1 being Right-biased, and
+    % -1 being left-biased. It is a conservative function. E.g, in a 50-50
+    % trial chance, and being totally biased to one side, only half of the
+    % trials would be wrong, so the function would output +/-0.5.
+    
+    % Correct trials based on proportion of wrong pokes
+    % Determine the proportion of wrong pokes to the right side
+    '''
+    WrongSides = FirstPokes[FirstPokesCorrect == 0]
+    if len(WrongSides)<1:
+        RBias = 0
+    else:
+        WrongSideProportion = len(WrongSides)/len(FirstPokes) #from 0 to 1
+        WrongRightsProportion = WrongSideProportion * np.nansum(WrongSides==2)/len(WrongSides)
+        WrongLeftsProportion = WrongSideProportion * np.nansum(WrongSides==1)/len(WrongSides)
+
+        RBias = WrongRightsProportion - WrongLeftsProportion
+    return RBias
+
+
+def CalculateRBiasWindow(FirstPokes, FirstPokesCorrect, Window):
+    '''Calculates RBias over the lenght of the vectors FirstPokes and 
+    FirstPokesCorrect using a Window. Returns vector of same lenght'''
+    # Create empty vector
+    RBiasVector = np.empty(len(FirstPokes))
+    RBiasVector[:] = np.nan
+    for i in range(Window, len(FirstPokes)):
+        win = range((i-Window),i)
+        RBiasVector[i] = RBias(FirstPokes[win], FirstPokesCorrect[win])
+    
+    return RBiasVector
+
+
+# calculate the number of times they go to the middle (anxiousness?)
+def CalculateMidPokes(df):
+    return np.sum(df['TrialEvents']['Port2In']<=df['TrialStates']['WaitForResponse'][0]) #this might fail if WaitForResponse is empty...
+
+
+# quantify how long they wait in the middle
+def MidPortWait(df):
+    timeOut = df['TrialStates']['WaitForResponse'].astype('float32')[0]  
+    PortIn = df['TrialEvents']['Port2In']
+    if not isinstance(PortIn, float):
+        PortIn = PortIn.astype('float32')
+        PortInIdx = np.where(PortIn<timeOut)[0][-1]
+        PortInTime = PortIn[PortInIdx]
+    else:
+        PortInTime = PortIn
+    
+    PortTime = timeOut - PortInTime
+    return PortTime
+
+
+def AnalyzePercentageByDay(rdf):
+    # df is a dataframe containing the following columns:
+    # 'FirstPokeCorrect'
+    # 'TrainingDay'
+    # 'AnimalID'
+    # 'Protocol'
+    # 'Injection'
+    # it returns a different dataframe with information grouped for a bar plot
+    AnimalIDs = pd.unique(rdf['AnimalID'])
+    animalsInfo = []
+    for animalid in AnimalIDs:
+        df = rdf[rdf['AnimalID']==animalid]
+        # get info for the sessions
+        TrainingDays = pd.unique(df['TrainingDay'])
+        # fill the new dataframe with info for each session
+        for session in TrainingDays:
+            # get the dataframe for that session
+            Sdf = df[df['TrainingDay']==session]
+            # protocol and injection
+            prot = Sdf.Protocol.iloc[0]
+            inj = Sdf.Injection.iloc[0]
+            # percentage of correct trials
+            PercCorrect = 100 * np.sum(Sdf['FirstPokeCorrect'])/len(Sdf)
+            # fill the dataframe
+            SessionDF = pd.DataFrame({
+                                      'AnimalID': animalid,
+                                      'SessionTime': session,
+                                      'PercCorrect': np.array([PercCorrect]),
+                                      'Protocol': prot,
+                                      'Injection': inj
+                                     })
+            # append it to list
+            animalsInfo.append(SessionDF)
+    # merge into a single df and return
+    
+    return pd.concat(animalsInfo, ignore_index=True)
