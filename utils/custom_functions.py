@@ -7,12 +7,15 @@ from sklearn.linear_model import LogisticRegression
 import pandas as pd
 import datetime
 from itertools import chain, compress
-
-# define a function that returns only those indices of a binary! vector (0 or 1) where some values are
-# first different than 0
+import sys
+sys.path.append("../")  # go to parent
+import Bpod_OE_Francesca.utils.load_nested_structs as load_ns
+import glob
 
 
 def first_diff_zero(array):
+    # define a function that returns only those indices of a binary! vector (0 or 1)
+    # where some values are first different than 0
     # create a new vector that is the same but shifted
     # move everything one space forward
     newarray = np.concatenate((0, array), axis=None)[0:len(array)]
@@ -34,66 +37,53 @@ def ParseForTimes(files):
         try:
             match = re.search(r'\d{8}_\d{6}', ntpath.basename(title))
             dates.append(match.group())
-        except:
+        except Exception:
             dates.append('notFound')
     return dates
 
 
-def ParseForDates(files):
-    # looks for 8digits (bpod style)
-    dates = []
-    for title in files:
-        try:
-            match = re.search(r'\d{8}', ntpath.basename(title))
-            dates.append(match.group())
-        except:
-            dates.append('notFound')
-    return dates
-
-
-def MakeDatesPretty(inputDates):
+def BpodDatesToTime(inputDates):
     # assumes input style YYYYMMDD_HHMMSS
+    # returns a time object
     outputDates = []
-    for date in inputDates: 
+    for date in inputDates:
         try:
             x = datetime.datetime(int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]))
-            outputDates.append(x.strftime("%b%d %H:%M")) 
-        except:
+            outputDates.append(x)
+        except Exception:
             outputDates.append('notFound')
     return(outputDates)
-    
 
-def PsychPerformance(trialsDif, sideSelected):    
+
+def PsychPerformance(trialsDif, sideSelected):  
     # function to calculate psychometric performance and fit logistic regression to the data
     # returns a dictionary
 
-    if trialsDif.any(): # in case an empty thing is passed
-    
+    if trialsDif.any():  # in case an empty thing is passed
+
         # masks to remove nans for logistic regression
         nan_mask = ~(np.isnan(trialsDif) | np.isnan(sideSelected))
-        #logistic regression
+        # logistic regression
         try:
             clf = LogisticRegression().fit(trialsDif[nan_mask, np.newaxis], sideSelected[nan_mask])
-        except:
+        except Exception:
             # in case a model cannot be fitted (e.g. mouse always goes to the left)
             # fit model on dummy data
-            clf = LogisticRegression().fit(np.array([0,0,100,100]).reshape(-1, 1), np.array([1,0,1,0]))
+            clf = LogisticRegression().fit(np.array([0, 0, 100, 100]).reshape(-1, 1), np.array([1, 0, 1, 0]))
         # Calculate performance
         # Initialize values
         difficulty = np.unique(trialsDif[~np.isnan(trialsDif)])
         performance = np.full(len(difficulty), np.nan)
         for i in range(len(difficulty)):
-            if np.nansum(sideSelected[trialsDif==difficulty[i]])>0:
-                performance[i] = 100 * (np.nanmean(sideSelected[trialsDif==difficulty[i]]) - 1)
+            if np.nansum(sideSelected[trialsDif == difficulty[i]]) > 0:
+                performance[i] = 100 * (np.nanmean(sideSelected[trialsDif == difficulty[i]]) - 1)
             else:
                 performance[i] = np.nan
-    
-    
+
         DictToReturn = {
-                'Difficulty': difficulty,
-                'Performance': performance,
-                'Logit': clf
-                }
+            'Difficulty': difficulty,
+            'Performance': performance,
+            'Logit': clf}
     else:
         DictToReturn = {}
         
@@ -116,7 +106,7 @@ def splitOpto(SessionData):
     # create dictionaries
     NormalTrials = {
         'SideSelected': normalTrials_sideSelected,
-        'Difficulty': normalTrials_difficulty   
+        'Difficulty': normalTrials_difficulty
     }
     
     OptoTrials = {
@@ -163,7 +153,7 @@ def BootstrapPerformances(trialsDif, sideSelected, ntimes, prediction_difficulti
     return predictPerFake
 
 
-def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
+def SessionDataToDataFrame(AnimalID, SessionID, SessionData):
     # function to create a dataframe out of the session
     # each trial is an entry on the dataframe
 
@@ -174,7 +164,7 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
     
     numberOfTrials = SessionData['nTrials']
     
-    # protocol information 
+    # protocol information
     ts = SessionData['TrialSettings']
     protocols = [ts[0]['GUIMeta']['TrainingLevel']['String'][x] for x in [y['GUI']['TrainingLevel'] - 1 for y in ts]]
     stimulations = [ts[0]['GUIMeta']['OptoStim']['String'][x] for x in [y['GUI']['OptoStim'] - 1 for y in ts]]
@@ -205,29 +195,33 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
     if not len(trev)==numberOfTrials:
         print('trial events length do not match with the number of trials')
         return pd.DataFrame()
-    
+
     # trial states
     trst = [x['States'] for x in SessionData['RawEvents']['Trial']]
     if not len(trst)==numberOfTrials:
         print('trial states length do not match with the number of trials')
         return pd.DataFrame()
-    
+
     # calculate the cumulative performance
     firstpokecorrect = SessionData['FirstPokeCorrect'][0:numberOfTrials]
     correct_cp = np.cumsum(firstpokecorrect == 1)
     incorrect_cp = np.cumsum(firstpokecorrect == 0)
     cumper = 100 * correct_cp / (correct_cp + incorrect_cp)
-    
-    #calculate when there is a side-switching event
+
+    # calculate when there is a side-switching event
     TriSide = np.array(SessionData['TrialSide'][0:numberOfTrials])
     SwitchSide = 1 * ((TriSide - np.insert(TriSide[:-1], 0, 0)) != 0)
-    
-    #add information about the choice in the previous trial'
+
+    # add information about the choice in the previous trial'
     FirstPoke = SessionData['FirstPoke'][0:numberOfTrials]
     PrevTriChoice = np.insert(np.asfarray(FirstPoke[:-1]), 0, np.nan)
-    
+
+    # create a nice ID for the session (pretty date/time)
+    prettyDate = SessionID.strftime("%b%d %H:%M")
+
     DFtoReturn = pd.DataFrame({'AnimalID': np.repeat(AnimalID, numberOfTrials),
-                               'SessionTime': np.repeat(SessionID, numberOfTrials),
+                               'SessionTime': np.repeat(prettyDate, numberOfTrials),
+                               'FullSessionTime': np.repeat(SessionID, numberOfTrials),
                                'Protocol': protocols,
                                'Stimulation': stimulations,
                                'Muscimol': muscimol,
@@ -249,8 +243,8 @@ def SessionDataToDataFrame (AnimalID, SessionID, SessionData):
                                'PreviousChoice': PrevTriChoice,
                                'TrialEvents': trev,
                                'TrialStates': trst
-                              })
-    
+                               })
+
     return DFtoReturn
 
 
@@ -363,22 +357,23 @@ def getEBdata(SessionData):
 def timeDifferences(listOfDates):
     '''
     Return the absolute time, in days, of elements in a list of dates, related to the first
+    Assumes data is in order (would return negative values otherwise)
     :param listOfDates: list of size X of dates. Format: YYYYMMDD_HHMMSS
-    :return: array of size X of absolute time 
+    :return: array of size X of absolute time
     '''
     abstimeList = []
     for date in listOfDates:
         strList = [int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]), int(date[13:15])]
         intList = list(map(int, strList))
         # Calculate absolute time in days
-        
-        multipliers = [365, 30 ,1 ,1/24 ,1/(24*60), 1/(24*60*60)]
-        mulList = [a*b for a,b in zip(intList,multipliers)]
+
+        multipliers = [365, 30, 1, 1 / 24, 1 / (24 * 60), 1 / (24 * 60 * 60)]
+        mulList = [a * b for a, b in zip(intList, multipliers)]
         abstime = sum(mulList)
         abstimeList.append(abstime)
-        
+
     diftime = np.array(abstimeList) - abstimeList[0]
-    
+
     return diftime
 
 
@@ -424,7 +419,8 @@ def CalculateRBiasWindow(FirstPokes, FirstPokesCorrect, Window):
 
 # calculate the number of times they go to the middle (anxiousness?)
 def CalculateMidPokes(df):
-    return np.sum(df['TrialEvents']['Port2In']<=df['TrialStates']['WaitForResponse'][0]) #this might fail if WaitForResponse is empty...
+    return np.sum(df['TrialEvents']['Port2In']<=df['TrialStates']['WaitForResponse'][0])
+    # this might fail if WaitForResponse is empty...
 
 
 # quantify how long they wait in the middle
@@ -478,3 +474,123 @@ def AnalyzePercentageByDay(rdf):
     # merge into a single df and return
     
     return pd.concat(animalsInfo, ignore_index=True)
+
+
+def ReadAnimalData(filelist, printout = True):
+    # Reads all data from one animal and one protocol
+    
+    # Initialize return lists
+    ExperimentFiles = [] # to store experiment names
+    ExperimentData = [] # to store the dictionaries
+    ntrialsDistribution = [] # to visualize the distribution of the number of trials
+    Protocols = [] # store the protocols
+    Stimulations = [] # store the stimulated protocols
+    Muscimol = [] # store information about the muscimol
+    counter = 0
+    # sort the file list
+    filelist.sort()
+    for file in filelist:
+        # Read data
+        data = load_ns.loadmat(file)
+        
+        # if that session is empty skip it:
+        if not 'nTrials' in data['SessionData']:
+            continue
+        
+        ntrials = data['SessionData']['nTrials'] # this sometimes fails if the session is empty
+
+        ExperimentFiles.append(file)
+        # Parse the settings of the trials
+        trial_settings = data['SessionData']['TrialSettings']
+        try:
+            for trial_num, trial in enumerate(trial_settings):
+                trial_settings[trial_num] = load_ns._todict(trial)
+            data['SessionData']['TrialSettings'] = trial_settings
+        except:
+            data['SessionData']['TrialSettings'] = np.nan
+
+        # Get info for the settings from the first trial
+        try:
+            protocol = trial_settings[0]['GUIMeta']['TrainingLevel']['String'][
+                trial_settings[0]['GUI']['TrainingLevel'] - 1]
+        except:
+            protocol = 'Unknown'
+
+        try:
+            stimulation = trial_settings[0]['GUIMeta']['OptoStim']['String'][
+                trial_settings[0]['GUI']['OptoStim'] - 1]
+        except:
+            stimulation = 'unknown'
+        
+        try:
+            muscimol = trial_settings[0]['GUIMeta']['Muscimol']['String'][
+                trial_settings[0]['GUI']['Muscimol'] - 1]
+        except:
+            muscimol = 'unknown'
+        
+        if printout:
+            print('{}: {}, {} trials on {}, stim {}, muscimol {}'.format(\
+                    counter, ntpath.basename(file), ntrials, protocol, stimulation, muscimol))
+        
+        ntrialsDistribution.append(ntrials)
+        Protocols.append(protocol)
+        Stimulations.append(stimulation)
+        Muscimol.append(muscimol)
+
+        # as RawEvents.Trial is a cell array of structs in MATLAB,
+        # we have to loop through the array and convert the structs to dicts
+        trial_raw_events = data['SessionData']['RawEvents']['Trial']
+        try:
+            for trial_num, trial in enumerate(trial_raw_events):
+                trial_raw_events[trial_num] = load_ns._todict(trial)
+            data['SessionData']['RawEvents']['Trial'] = trial_raw_events
+        except:
+            data['SessionData']['RawEvents']['Trial'] = np.nan
+        
+
+        # Save the data in a list
+        ExperimentData.append(data)
+        counter+=1
+        
+    return ExperimentFiles, ExperimentData, ntrialsDistribution, Protocols, Stimulations, Muscimol
+
+
+def get_new_files(filelist, existing_dates):
+    """
+    Compares dates in files to a datetime dataset to check for existing data
+        :param filelist: list of full paths to bpod files
+        :type filelist: list of strings
+        :param existing_dates: time objects in datetime format
+        :returns: subset of filelist
+    """
+    filenames = [ntpath.basename(x) for x in filelist]
+    dates = BpodDatesToTime(ParseForTimes(filenames))
+    dates_formatted = [str(i) for i in dates]
+    existing_dates_formatted = [str(i) for i in existing_dates]
+    new_dates = list(set(dates_formatted) - set(existing_dates_formatted))
+    new_idx = [i for i, n in enumerate(dates_formatted) if n in new_dates]
+    new_files = [filelist[i] for i in new_idx]
+    return new_files
+
+
+def split_files_into_old_and_new(filelist, existing_dates):
+    """
+    Compares dates in files to a datetime dataset to split them into new files and old files
+        :param filelist: list of full paths to bpod files
+        :type filelist: list of strings
+        :param existing_dates: time objects in datetime format
+        :returns: two subsets of filelist
+    """
+    # files with a new date
+    dif_files = get_new_files(filelist, existing_dates)
+    # compare dates and split
+    # most recent date in dataset
+    # idx of old_files
+    filenames = [ntpath.basename(x) for x in dif_files]
+    dates = BpodDatesToTime(ParseForTimes(filenames))
+    old_idx = [i for i, n in enumerate(dates) if n < existing_dates.max().to_pydatetime()]
+    # split
+    old_files = [dif_files[i] for i in old_idx]
+    new_files = [dif_files[i] for i in list(set(range(len(dif_files))) - set(old_idx))]
+
+    return old_files, new_files
