@@ -1,8 +1,13 @@
 # plot_utils
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from math import *
-
+import pandas as pd
+sys.path.append("../")  # for search in the path
+import BehaviouralAnalysis.utils.custom_functions as cuf
+import OpenEphys_Analysis.utils.custom_functions as OE
+import seaborn as sns
 
 def axvlines(xs, ax=None, **plot_kwargs):
     """
@@ -23,7 +28,7 @@ def axvlines(xs, ax=None, **plot_kwargs):
     return plot
 
 
-def summary_figure(mydict, subplot_time_length=300):
+def summary_figure_joystick(mydict, subplot_time_length=300):
     # generate a summary figure of the training
     # calculate the number of subplots needed
     # subplot_time_length = 300  # 5 minutes
@@ -47,7 +52,7 @@ def summary_figure(mydict, subplot_time_length=300):
     return fig
 
 
-def summary_plot(mydict, ax=None):
+def summary_plot_joystick(mydict, ax=None):
     """
     Create a summary plot with info about the training session
     :param mydict: dictionary containing the data
@@ -108,8 +113,87 @@ def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
     # get rid of the frame
     for spine in ax.spines.values():
         spine.set_visible(False)
-    
+
     # invert the axis as it looks more natural for a psychometric curve
     ax.invert_xaxis()
 
+    return ax
+
+
+def summary_matrix(df):
+    # Initialize lists to save important data
+    DifficultyValues = []
+    PerformanceValues = []
+
+    # process data from all experiments
+    for counter, session in enumerate(pd.unique(df['SessionTime'])):
+        predictDif, PsyPer, fakePredictions, predictPer, _ = \
+            cuf.PP_ProcessExperiment(df[df['SessionTime'] == session])
+
+        # append to lists, only the normal trials
+        DifficultyValues.append(PsyPer['Difficulty'])
+        PerformanceValues.append(PsyPer['Performance'])
+
+        OE.update_progress(counter / len(pd.unique(df['SessionTime'])))
+
+    OE.update_progress(1)
+
+    # calculate difficulty levels
+    difLevels = np.unique(np.concatenate(DifficultyValues).ravel())
+    # Initialize the matrix
+    matToPlot = np.full([len(difLevels), len(DifficultyValues)], np.nan)
+    # Loop to fill it
+    for i, dif in enumerate(difLevels):
+        for j, per in enumerate(PerformanceValues):
+            if dif in DifficultyValues[j]:
+                idxOfDif = np.where(DifficultyValues[j] == dif)[0][0]
+                matToPlot[i, j] = per[idxOfDif]
+
+    # Transform to dataframe
+    dfToPlot = pd.DataFrame(matToPlot)
+    dfToPlot = dfToPlot.set_index(difLevels)  # set row names
+    dfToPlot.columns = pd.unique(df['SessionTime'])  # set col names
+
+    return dfToPlot
+
+
+def summary_plot(dfToPlot, AnimalDF, ax):
+    sns.set(style="white")
+    sp = sns.heatmap(dfToPlot, linewidth=0.001, square=True, cmap="coolwarm",
+                cbar_kws={"shrink": 0.6, 'label': '% Rightward choices'},
+                ax = ax)
+    # TODO: check that the size is proportional (area vs radius)
+    # recalculate the number of trials as some might get grouped if they are on the same day. Do all below with the dataframe
+    Protocols = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Protocol'])[0] \
+                for session in pd.unique(AnimalDF['SessionTime'])]
+    ntrialsDistribution = [len(AnimalDF[AnimalDF['SessionTime']==session]) for session in pd.unique(AnimalDF['SessionTime'])]
+    Stimulations = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Stimulation'])[0] \
+                for session in pd.unique(AnimalDF['SessionTime'])]
+    Muscimol = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Muscimol'])[0] \
+                for session in pd.unique(AnimalDF['SessionTime'])]
+    difLevels = dfToPlot.index
+    AnimalName = str(pd.unique(AnimalDF.AnimalID)[0])
+    AnimalGroup = str(pd.unique(AnimalDF.ExperimentalGroup)[0])
+
+    for pr_counter, prot in enumerate(np.unique(Protocols)):
+        protIdx = [i for i, x in enumerate(Protocols) if x == prot]
+        ax.scatter([x + 0.5 for x in protIdx], np.repeat(len(difLevels)+0.5, len(protIdx)), marker='o',
+                s=[ntrialsDistribution[x]/5 for x in protIdx], label = prot) 
+    # label the opto sessions
+    for st_counter, stim in enumerate(np.unique(Stimulations)):
+        stimIdx = [i for i, x in enumerate(Stimulations) if x == stim]
+        ax.scatter([x + 0.5 for x in stimIdx], np.repeat(len(difLevels)+1.5, len(stimIdx)), marker='*', s=100, label = stim)
+    # label the muscimol sessions
+    for mus_counter, mus in enumerate(np.unique(Muscimol)):
+        musIdx = [i for i, x in enumerate(Muscimol) if x == mus]
+        ax.scatter([x + 0.5 for x in musIdx], np.repeat(len(difLevels)+2.5, len(musIdx)), marker='P', s=100, label = mus)
+        
+    ax.legend(loc=(0,1), borderaxespad=0., ncol = 5, frameon=True)
+    ax.set_ylim([0, len(difLevels)+3])
+    plt.ylabel('% High Tones')
+    plt.xlabel('Session')
+    sp.set_yticklabels(sp.get_yticklabels(), rotation=0)
+    sp.set_xticklabels(sp.get_xticklabels(), rotation=45, horizontalalignment="right")
+    sp.set_title(AnimalName + ' - ' + AnimalGroup + '\n\n', fontsize=20, fontweight=0)
+    
     return ax

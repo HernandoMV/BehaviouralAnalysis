@@ -153,7 +153,7 @@ def BootstrapPerformances(trialsDif, sideSelected, ntimes, prediction_difficulti
     return predictPerFake
 
 
-def SessionDataToDataFrame(AnimalID, SessionID, SessionData):
+def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
     # function to create a dataframe out of the session
     # each trial is an entry on the dataframe
 
@@ -219,8 +219,9 @@ def SessionDataToDataFrame(AnimalID, SessionID, SessionData):
     # create a nice ID for the session (pretty date/time)
     prettyDate = SessionID.strftime("%b%d %H:%M")
 
-    DFtoReturn = pd.DataFrame({'AnimalID': np.repeat(AnimalID, numberOfTrials),
-                               'SessionTime': np.repeat(prettyDate, numberOfTrials),
+    DFtoReturn = pd.DataFrame({'AnimalID': pd.Series(np.repeat(AnimalID, numberOfTrials)).astype("category"),
+                               'ExperimentalGroup': pd.Series(np.repeat(ExperimentalGroup, numberOfTrials)).astype("category"),
+                               'SessionTime': pd.Series(np.repeat(prettyDate, numberOfTrials)).astype("category"),
                                'FullSessionTime': np.repeat(SessionID, numberOfTrials),
                                'Protocol': protocols,
                                'Stimulation': stimulations,
@@ -396,9 +397,9 @@ def RBias(FirstPokes, FirstPokesCorrect):
     if len(WrongSides)<1:
         RBias = 0
     else:
-        WrongSideProportion = len(WrongSides)/len(FirstPokes) #from 0 to 1
-        WrongRightsProportion = WrongSideProportion * np.nansum(WrongSides==2)/len(WrongSides)
-        WrongLeftsProportion = WrongSideProportion * np.nansum(WrongSides==1)/len(WrongSides)
+        WrongSideProportion = len(WrongSides) / len(FirstPokes) # from 0 to 1
+        WrongRightsProportion = WrongSideProportion * np.nansum(WrongSides == 2)/len(WrongSides)
+        WrongLeftsProportion = WrongSideProportion * np.nansum(WrongSides == 1)/len(WrongSides)
 
         RBias = WrongRightsProportion - WrongLeftsProportion
     return RBias
@@ -419,7 +420,7 @@ def CalculateRBiasWindow(FirstPokes, FirstPokesCorrect, Window):
 
 # calculate the number of times they go to the middle (anxiousness?)
 def CalculateMidPokes(df):
-    return np.sum(df['TrialEvents']['Port2In']<=df['TrialStates']['WaitForResponse'][0])
+    return np.sum(df['TrialEvents']['Port2In'] <= df['TrialStates']['WaitForResponse'][0])
     # this might fail if WaitForResponse is empty...
 
 
@@ -584,7 +585,6 @@ def split_files_into_old_and_new(filelist, existing_dates):
     # files with a new date
     dif_files = get_new_files(filelist, existing_dates)
     # compare dates and split
-    # most recent date in dataset
     # idx of old_files
     filenames = [ntpath.basename(x) for x in dif_files]
     dates = BpodDatesToTime(ParseForTimes(filenames))
@@ -594,3 +594,4 @@ def split_files_into_old_and_new(filelist, existing_dates):
     new_files = [dif_files[i] for i in list(set(range(len(dif_files))) - set(old_idx))]
 
     return old_files, new_files
+
