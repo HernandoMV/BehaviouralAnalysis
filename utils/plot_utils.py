@@ -77,10 +77,10 @@ def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
     
     if ax is None:
         ax = plt.gca()
-    
+
     # This plots all the fake data:
     # plt.plot(predictDif, fakePred, 'k-', lw=0.5, alpha=0.2)
-    
+
     # plot percentiles if fake data is provided
     if fakePred is not None:
         percentiles = np.percentile(fakePred, [2.5, 97.5], axis=1).T
@@ -89,13 +89,13 @@ def PlotPsychPerformance(dataDif=None, dataPerf=None, predictDif=None, ax=None,
     # plot the psychometric performance if the predictions are provided
     if realPred is not None:
         ax.plot(predictDif.reshape(-1), realPred, '-', **plot_kwargs)
-    
+
     # plot the error bars
     if errorBars is not None:
         for i, EBlength in enumerate(errorBars):
-            ax.plot([dataDif[i], dataDif[i]], [dataPerf[i]-EBlength/2, dataPerf[i]+EBlength/2],
+            ax.plot([dataDif[i], dataDif[i]], [dataPerf[i] - EBlength / 2, dataPerf[i] + EBlength / 2],
                     '-', **plot_kwargs)
-            
+
     # plot the data
     if dataPerf is not None:
         ax.plot(dataDif, dataPerf, 'o', ms=8, label=label, **plot_kwargs)
