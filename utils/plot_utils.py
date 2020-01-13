@@ -161,7 +161,7 @@ def summary_plot(dfToPlot, AnimalDF, ax):
     sns.set(style="white")
     sp = sns.heatmap(dfToPlot, linewidth=0.001, square=True, cmap="coolwarm",
                 cbar_kws={"shrink": 0.6, 'label': '% Rightward choices'},
-                ax = ax)
+                ax = ax, vmin=0, vmax=100)
     # TODO: check that the size is proportional (area vs radius)
     # recalculate the number of trials as some might get grouped if they are on the same day. Do all below with the dataframe
     Protocols = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Protocol'])[0] \

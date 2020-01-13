@@ -183,6 +183,23 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
         except Exception:
             muscimol.append('No')
 
+    # reward change
+    yList = []
+    reward_change_block = []
+    for y in ts:
+        try:
+            yList.append(y['GUI']['RewardChange'] - 1)
+            reward_change_block.append(y['RewardChangeBlock'])
+        except Exception:
+            yList.append(0)
+            reward_change_block.append(0)
+    reward_change = []
+    for x in yList:
+        try:
+            reward_change.append(ts[0]['GUIMeta']['RewardChange']['String'][x])
+        except Exception:
+            reward_change.append('No')
+
     if not np.logical_and(len(protocols) == numberOfTrials, len(stimulations) == numberOfTrials):
         print('protocols and/or stimulations length do not match with the number of trials')
         return pd.DataFrame()
@@ -192,13 +209,13 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
 
     # trial events
     trev = [x['Events'] for x in SessionData['RawEvents']['Trial']]
-    if not len(trev)==numberOfTrials:
+    if not len(trev) == numberOfTrials:
         print('trial events length do not match with the number of trials')
         return pd.DataFrame()
 
     # trial states
     trst = [x['States'] for x in SessionData['RawEvents']['Trial']]
-    if not len(trst)==numberOfTrials:
+    if not len(trst) == numberOfTrials:
         print('trial states length do not match with the number of trials')
         return pd.DataFrame()
 
@@ -226,6 +243,8 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
                                'Protocol': protocols,
                                'Stimulation': stimulations,
                                'Muscimol': muscimol,
+                               'RewardChange': reward_change,
+                               'RewardChangeBlock': reward_change_block,
                                'CenterPortDuration': CenterPortDuration,
                                'Contingency': Contingency,
                                'RewardAmount': RewardAmount,
