@@ -11,6 +11,7 @@ import sys
 sys.path.append("../")  # go to parent
 import Bpod_OE_Francesca.utils.load_nested_structs as load_ns
 import glob
+import socket
 
 
 def first_diff_zero(array):
@@ -676,3 +677,17 @@ def speed_window_calculator(df, window):
                                             trial_start_timestamp[win_idx_low: win_idx_high])
     return speed_window
 
+
+DATA_FOLDER_PATHS = {
+    'nailgun': '/home/hernandom/data'
+}
+
+def get_data_folder():
+    """
+    Selects data folder depending on computer name
+    """
+    computer_name = socket.gethostname()
+    try:
+        return DATA_FOLDER_PATHS[computer_name]
+    except KeyError:
+        raise ValueError(f"Unknown data path for computer {computer_name}.")
