@@ -679,7 +679,8 @@ def speed_window_calculator(df, window):
 
 
 DATA_FOLDER_PATHS = {
-    'nailgun': '/home/hernandom/data'
+    'nailgun': '/home/hernandom/data',
+    'HMVergara-Laptop': '/mnt/c/Users/herny/Desktop/SWC/Data'
 }
 
 
