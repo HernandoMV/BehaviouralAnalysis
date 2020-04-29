@@ -644,7 +644,7 @@ def perf_window_calculator(df, window):
     # create empty vector of the same size
     perf_window = np.full(len(firstpokecorrect), np.nan)
     for i in range(window - 1, len(perf_window)):
-        perf_window[i] = np.sum(firstpokecorrect[i - window + 1: i + 1]) / window * 100
+        perf_window[i] = np.nansum(firstpokecorrect[i - window + 1: i + 1]) / window * 100
     return perf_window
 
 
