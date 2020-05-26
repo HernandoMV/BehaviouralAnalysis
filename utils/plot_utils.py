@@ -8,6 +8,9 @@ sys.path.append("../")  # for search in the path
 import BehaviouralAnalysis.utils.custom_functions as cuf
 import OpenEphys_Analysis.utils.custom_functions as OE
 import seaborn as sns
+from matplotlib.lines import Line2D
+from scipy import stats
+
 
 def axvlines(xs, ax=None, **plot_kwargs):
     """
@@ -197,3 +200,62 @@ def summary_plot(dfToPlot, AnimalDF, ax):
     sp.set_title(AnimalName + ' - ' + AnimalGroup + '\n\n', fontsize=20, fontweight=0)
     
     return ax
+
+
+def reg_in_ax(X, Y, ax, legloc):
+    # plots a regression in the axes
+    
+    ### solution with sklearn, deprecated as pvalues are easy to calculate with stats
+    """
+    # fit model
+    regr = LinearRegression()
+    lrmodel = regr.fit(X[:, np.newaxis], Y)
+    # predict
+    Xpr = np.linspace(np.min(X), np.max(X), 30)
+    Ypr = regr.predict(Xpr[:, np.newaxis])
+    # r score:
+    r_sq = regr.score(X[:, np.newaxis], Y)
+    """
+    ### solution with stats
+    slope, intercept, r_value, p_value, std_err = stats.linregress(X, Y)
+    Xpr = np.linspace(np.min(X), np.max(X), 30)
+    Ypr = Xpr * slope + intercept
+    r_sq = r_value ** 2
+    # plot
+    ax.plot(Xpr, Ypr, color='k', linestyle='--')
+    legend_elements = [Line2D([0], [0], color='k', lw=1, linestyle='--',
+                              label='r2 = %.3f\np-val = %.3f' % (r_sq, p_value))]
+    ax.legend(handles=legend_elements, loc=legloc, frameon=False)
+
+
+def add_stats(ax=None, xvals=(0,1), yval=None, pval=None, n_asterisks = 1):
+    # get axis
+    if ax is None:
+        ax = plt.gca()
+    # if yval is None plot in the middle
+    ylims = ax.get_ylim()
+    if yval is None:
+        yval = (ylims[1] + ylims[0]) / 2
+    # plot two lines with n_asterisks in between
+    # each asterisk occupies a certain % of the xvals specified
+    # define that middle space
+    xlength = xvals[1] - xvals[0]
+    xmidpoint = (xvals[1] + xvals[0]) / 2
+    mid_space = n_asterisks * 0.2 * xlength
+    # define where the first line end and where the second begin
+    first_end = xmidpoint - mid_space / 2
+    second_begin = first_end + mid_space
+    
+    # plot the horizontal bars
+    ax.plot([xvals[0], first_end], [yval, yval], 'gray')
+    ax.plot([second_begin, xvals[1]], [yval, yval], 'gray')
+    
+    # add asterisks
+    ast_str = n_asterisks * '*'
+    ax.text(xmidpoint, yval, ast_str, horizontalalignment='center', verticalalignment='center')
+    
+    # add small vertical bars
+    vbsize = 0.05 * (ylims[1] - ylims[0])
+    ax.plot([xvals[0], xvals[0]], [yval, yval + vbsize], 'gray')
+    ax.plot([xvals[1], xvals[1]], [yval, yval + vbsize], 'gray')
+
