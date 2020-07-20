@@ -9,7 +9,7 @@ import datetime
 from itertools import chain, compress
 import sys
 sys.path.append("../")  # go to parent
-import Bpod_OE_Francesca.utils.load_nested_structs as load_ns
+import BehaviouralAnalysis.utils.load_nested_structs as load_ns
 #import glob
 import socket
 
