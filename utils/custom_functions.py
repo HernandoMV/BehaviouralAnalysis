@@ -184,6 +184,20 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
         except Exception:
             muscimol.append('No')
 
+    # punish method
+    yList = []
+    for y in ts:
+        try:
+            yList.append(y['GUI']['Punish'] - 1)
+        except Exception:
+            yList.append(0)
+    punish = []
+    for x in yList:
+        try:
+            punish.append(ts[0]['GUIMeta']['Punish']['String'][x])
+        except Exception:
+            punish.append('No')
+
     # reward change
     yList = []
     reward_change_block = []
@@ -207,6 +221,9 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
     CenterPortDuration = [x['GUI']['CenterPortDuration'] for x in ts]
     Contingency = [x['GUI']['Contingency'] for x in ts]
     RewardAmount = [x['GUI']['RewardAmount'] for x in ts]
+    PunishDelay = [x['GUI']['PunishDelay'] for x in ts]
+    #Punish = [x['GUI']['Punish'] for x in ts]
+    FullGUI = [x['GUI'] for x in ts]
 
     # trial events
     trev = [x['Events'] for x in SessionData['RawEvents']['Trial']]
@@ -249,6 +266,8 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
                                'CenterPortDuration': CenterPortDuration,
                                'Contingency': Contingency,
                                'RewardAmount': RewardAmount,
+                               'PunishDelay': PunishDelay,
+                               'Punish': punish,
                                'TrialIndex': list(range(numberOfTrials)),
                                'TrialHighPerc': SessionData['TrialHighPerc'][0:numberOfTrials],
                                'Outcomes': SessionData['Outcomes'][0:numberOfTrials],
@@ -263,7 +282,8 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
                                'SwitchSide': SwitchSide,
                                'PreviousChoice': PrevTriChoice,
                                'TrialEvents': trev,
-                               'TrialStates': trst
+                               'TrialStates': trst,
+                               'FullGUI': FullGUI
                                })
 
     return DFtoReturn

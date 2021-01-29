@@ -160,45 +160,54 @@ def summary_matrix(df):
     return dfToPlot
 
 
-def summary_plot(dfToPlot, AnimalDF, ax):
+def summary_plot(dfToPlot, AnimalDF, ax, top_labels=['Stimulation', 'Muscimol']):
+    '''
+    Generates a matrix plot with information regarding each particular session on the top
+    '''
     sns.set(style="white")
     sp = sns.heatmap(dfToPlot, linewidth=0.001, square=True, cmap="coolwarm",
-                cbar_kws={"shrink": 0.6, 'label': '% Rightward choices'},
-                ax = ax, vmin=0, vmax=100)
+                     cbar_kws={"shrink": 0.6, 'label': '% Rightward choices'},
+                     ax=ax, vmin=0, vmax=100)
     # TODO: check that the size is proportional (area vs radius)
-    # recalculate the number of trials as some might get grouped if they are on the same day. Do all below with the dataframe
-    Protocols = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Protocol'])[0] \
-                for session in pd.unique(AnimalDF['SessionTime'])]
-    ntrialsDistribution = [len(AnimalDF[AnimalDF['SessionTime']==session]) for session in pd.unique(AnimalDF['SessionTime'])]
-    Stimulations = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Stimulation'])[0] \
-                for session in pd.unique(AnimalDF['SessionTime'])]
-    Muscimol = [pd.unique(AnimalDF[AnimalDF['SessionTime']==session]['Muscimol'])[0] \
-                for session in pd.unique(AnimalDF['SessionTime'])]
+    # recalculate the number of trials as some might get grouped if they are on the same day.
+    # Do all below with the dataframe
+
+    # The protocols is the default that gets plotted
+    Protocols = [pd.unique(AnimalDF[AnimalDF['SessionTime'] == session]['Protocol'])[0]
+                 for session in pd.unique(AnimalDF['SessionTime'])]
+    ntrialsDistribution = [len(AnimalDF[AnimalDF['SessionTime'] == session])
+                           for session in pd.unique(AnimalDF['SessionTime'])]
+
     difLevels = dfToPlot.index
     AnimalName = str(pd.unique(AnimalDF.AnimalID)[0])
     AnimalGroup = str(pd.unique(AnimalDF.ExperimentalGroup)[0])
+    shift_up = 0.5
 
     for pr_counter, prot in enumerate(np.unique(Protocols)):
         protIdx = [i for i, x in enumerate(Protocols) if x == prot]
-        ax.scatter([x + 0.5 for x in protIdx], np.repeat(len(difLevels)+0.5, len(protIdx)), marker='o',
-                s=[ntrialsDistribution[x]/5 for x in protIdx], label = prot) 
-    # label the opto sessions
-    for st_counter, stim in enumerate(np.unique(Stimulations)):
-        stimIdx = [i for i, x in enumerate(Stimulations) if x == stim]
-        ax.scatter([x + 0.5 for x in stimIdx], np.repeat(len(difLevels)+1.5, len(stimIdx)), marker='*', s=100, label = stim)
-    # label the muscimol sessions
-    for mus_counter, mus in enumerate(np.unique(Muscimol)):
-        musIdx = [i for i, x in enumerate(Muscimol) if x == mus]
-        ax.scatter([x + 0.5 for x in musIdx], np.repeat(len(difLevels)+2.5, len(musIdx)), marker='P', s=100, label = mus)
-        
-    ax.legend(loc=(0,1), borderaxespad=0., ncol = 5, frameon=True)
-    ax.set_ylim([0, len(difLevels)+3])
+        ax.scatter([x + 0.5 for x in protIdx], np.repeat(len(difLevels) + shift_up, len(protIdx)),
+                   marker='o', s=[ntrialsDistribution[x] / 5 for x in protIdx], label=prot)
+    shift_up += 1
+
+    # label the rest of teh seesions as given in the input
+    marker_list = ['*', 'P', 'h', 'D', 'X']
+    for n_lab, t_label in enumerate(top_labels):
+        t_label_uniques = [pd.unique(AnimalDF[AnimalDF['SessionTime'] == session][t_label])[0]
+                           for session in pd.unique(AnimalDF['SessionTime'])]
+        for st_counter, tlu in enumerate(np.unique(t_label_uniques)):
+            tlu_idx = [i for i, x in enumerate(t_label_uniques) if x == tlu]
+            ax.scatter([x + 0.5 for x in tlu_idx], np.repeat(len(difLevels) + shift_up,
+                       len(tlu_idx)), marker=marker_list[n_lab], s=100, label=tlu)
+        shift_up += 1
+
+    ax.legend(loc=(0, 1), borderaxespad=0., ncol=5, frameon=True)
+    ax.set_ylim([0, len(difLevels) + shift_up - 0.5])
     plt.ylabel('% High Tones')
     plt.xlabel('Session')
     sp.set_yticklabels(sp.get_yticklabels(), rotation=0)
     sp.set_xticklabels(sp.get_xticklabels(), rotation=45, horizontalalignment="right")
     sp.set_title(AnimalName + ' - ' + AnimalGroup + '\n\n', fontsize=20, fontweight=0)
-    
+
     return ax
 
 
