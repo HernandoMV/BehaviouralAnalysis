@@ -222,7 +222,7 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
     Contingency = [x['GUI']['Contingency'] for x in ts]
     RewardAmount = [x['GUI']['RewardAmount'] for x in ts]
     PunishDelay = [x['GUI']['PunishDelay'] for x in ts]
-    #Punish = [x['GUI']['Punish'] for x in ts]
+    BiasCorrection = [x['GUI']['BiasCorrection'] for x in ts]
     FullGUI = [x['GUI'] for x in ts]
 
     # trial events
@@ -268,6 +268,7 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
                                'RewardAmount': RewardAmount,
                                'PunishDelay': PunishDelay,
                                'Punish': punish,
+                               'BiasCorrection': BiasCorrection,
                                'TrialIndex': list(range(numberOfTrials)),
                                'TrialHighPerc': SessionData['TrialHighPerc'][0:numberOfTrials],
                                'Outcomes': SessionData['Outcomes'][0:numberOfTrials],
