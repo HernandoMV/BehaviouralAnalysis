@@ -2,5 +2,5 @@
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "/home/hmvergara/anaconda3/envs/behav/bin/python"
+    "python.pythonPath": "/home/hernandom/.conda/envs/behav/bin/python"
 }

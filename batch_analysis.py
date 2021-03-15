@@ -1,19 +1,12 @@
 from utils import custom_functions as cuf
-from utils import plot_utils, Lapse_model
 import os
-import sys
 import glob
 import ntpath
-import matplotlib
 import matplotlib.pylab as plt
 import numpy as np
-from sklearn.linear_model import LogisticRegression
-import math
 import seaborn as sns
 import pandas as pd
-import warnings
 from itertools import chain
-import datetime
 
 
 # Animals to analyze
@@ -31,7 +24,7 @@ eg_list = ['Cortex_Buffer', 'D2Cre-caspase', 'D2Cre-caspase', 'D2Cre-caspase',
 BpodProtocol = '/Two_Alternative_Choice/'
 # Main directory of behavioural data to be saved, now computer dependent
 GeneralDirectory = cuf.get_data_folder() + '/Behavioural_Data/Bpod_data/'
-InputDirectory = '/mnt/c/Users/herny/Desktop/SWC/Data/Behavioural_Data/Bpod_data/'
+InputDirectory = '/mnt/hernandom/winstor/swc/sjones/data/bpod_raw_data/'
 
 # Create out directory if it does not exist
 batch_output = GeneralDirectory + batch_name + '_Analysis/'
@@ -67,6 +60,10 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     if update:
         existing_dates = pd.to_datetime(pd.unique(AnimalDF['FullSessionTime']))
         old_files, files_for_updating = cuf.split_files_into_old_and_new(filelist, existing_dates)
+        # if no more files for updating, break loop
+        if len(files_for_updating) < 1:
+            print('No new files for this animal')
+            continue
     else:
         files_for_updating = filelist
 
@@ -153,6 +150,8 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     ##
     # save the dataframe
     AnimalDF.to_pickle(outputDir + AnimalID + '_dataframe.pkl')
+    # append dataframe to batch dataframe
+    DataFrames.append(AnimalDF)
 
     # plot
     fig, ax = plt.subplots(figsize=(15,5))
@@ -169,89 +168,97 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     plt.savefig(outputDir + AnimalID + '_CumulativePerformance.pdf',
                 transparent=True, bbox_extra_artists=(lgd,), bbox_inches='tight')
     
-    ##
-    # append dataframe to batch dataframe
-    DataFrames.append(AnimalDF)
+
 
 ##
 print('Analyzing all animals')
 # join dataframes
-AnimalsDF = pd.concat(DataFrames, ignore_index=True)
+if len(DataFrames) > 0:
+    # Read the dataframes and merge them
+    DataFrames = []
+    for AID in animals_to_analyze:
+        DFfile = GeneralDirectory + AID + BpodProtocol + AID + '_dataframe.pkl'
+        ADF = pd.read_pickle(DFfile)
+        DataFrames.append(ADF)
+    AnimalsDF = pd.concat(DataFrames, ignore_index=True)
 
-# Create a unique ID for every session
-def mergeStrings(df):
-    return df['AnimalID'] + ' ' + df['SessionTime']
+    # Create a unique ID for every session
+    def mergeStrings(df):
+        return df['AnimalID'] + ' ' + df['SessionTime']
 
 
-AnimalsDF['SessionID'] = AnimalsDF[['AnimalID', 'SessionTime']].apply(mergeStrings, axis=1)
+    AnimalsDF['SessionID'] = AnimalsDF[['AnimalID', 'SessionTime']].apply(mergeStrings, axis=1)
 
-# Create a cumulative trial number for every animal BE AWARE THAT SESSIONS MIGHT HAVE BEEN REMOVED BEFORE SO THIS NUMBER IS NOT EXACT
-CumTrialsList = []
-for Aid in pd.unique(AnimalsDF['AnimalID']):
-    CumTrialsList.append(np.arange(len(AnimalsDF[AnimalsDF['AnimalID'] == Aid])) + 1)
-# flatten the list of lists
-AnimalsDF['CumulativeTrialNumber'] = np.array(list(chain(*[x for x in CumTrialsList])))
+    # Create a cumulative trial number for every animal BE AWARE THAT SESSIONS MIGHT HAVE BEEN REMOVED BEFORE SO THIS NUMBER IS NOT EXACT
+    CumTrialsList = []
+    for Aid in pd.unique(AnimalsDF['AnimalID']):
+        CumTrialsList.append(np.arange(len(AnimalsDF[AnimalsDF['AnimalID'] == Aid])) + 1)
+    # flatten the list of lists
+    AnimalsDF['CumulativeTrialNumber'] = np.array(list(chain(*[x for x in CumTrialsList])))
 
-# Restart the count of CumulativeTrialNumber for every protocol
-AnimalsDF['CumulativeTrialNumberByProtocol'] = np.nan
+    # Restart the count of CumulativeTrialNumber for every protocol
+    AnimalsDF['CumulativeTrialNumberByProtocol'] = np.nan
 
-for Aid in pd.unique(AnimalsDF['AnimalID']):
-    for Prot in pd.unique(AnimalsDF['Protocol']):
-        conditions = np.logical_and(AnimalsDF['AnimalID'] == Aid, AnimalsDF['Protocol'] == Prot)
-        AnimalsDF.CumulativeTrialNumberByProtocol.loc[AnimalsDF[conditions].index] = \
-            np.arange(len(AnimalsDF[conditions])) + 1
+    for Aid in pd.unique(AnimalsDF['AnimalID']):
+        for Prot in pd.unique(AnimalsDF['Protocol']):
+            conditions = np.logical_and(AnimalsDF['AnimalID'] == Aid, AnimalsDF['Protocol'] == Prot)
+            AnimalsDF.CumulativeTrialNumberByProtocol.loc[AnimalsDF[conditions].index] = \
+                np.arange(len(AnimalsDF[conditions])) + 1
 
-# Calculate performance of the past X trials
-PAST_WINDOW = 20
-CumPerList = []
-for Sid in pd.unique(AnimalsDF['SessionID']):
-    CumPerList.append(cuf.perf_window_calculator(AnimalsDF[AnimalsDF['SessionID'] == Sid], PAST_WINDOW))
-# flatten the list of lists
-AnimalsDF['CurrentPastPerformance20'] = np.array(list(chain(*[x for x in CumPerList])))
+    # Calculate performance of the past X trials
+    PAST_WINDOW = 20
+    CumPerList = []
+    for Sid in pd.unique(AnimalsDF['SessionID']):
+        CumPerList.append(cuf.perf_window_calculator(AnimalsDF[AnimalsDF['SessionID'] == Sid], PAST_WINDOW))
+    # flatten the list of lists
+    AnimalsDF['CurrentPastPerformance20'] = np.array(list(chain(*[x for x in CumPerList])))
 
-# Calculate performance of the past X trials
-PAST_WINDOW = 100
-CumPerList = []
-for Sid in pd.unique(AnimalsDF['SessionID']):
-    CumPerList.append(cuf.perf_window_calculator(AnimalsDF[AnimalsDF['SessionID']==Sid], PAST_WINDOW))
-# flatten the list of lists
-AnimalsDF['CurrentPastPerformance100'] = np.array(list(chain(*[x for x in CumPerList])))
+    # Calculate performance of the past X trials
+    PAST_WINDOW = 100
+    CumPerList = []
+    for Sid in pd.unique(AnimalsDF['SessionID']):
+        CumPerList.append(cuf.perf_window_calculator(AnimalsDF[AnimalsDF['SessionID']==Sid], PAST_WINDOW))
+    # flatten the list of lists
+    AnimalsDF['CurrentPastPerformance100'] = np.array(list(chain(*[x for x in CumPerList])))
 
-# Number of pokes in the center
-AnimalsDF['NoOfCenterPokes'] = AnimalsDF[['TrialEvents', 'TrialStates']].apply(cuf.CalculateMidPokes, axis=1)
+    # Number of pokes in the center
+    AnimalsDF['NoOfCenterPokes'] = AnimalsDF[['TrialEvents', 'TrialStates']].apply(cuf.CalculateMidPokes, axis=1)
 
-# Time waiting in the middle
-AnimalsDF['MiddleWaitTime'] = AnimalsDF[['TrialEvents', 'TrialStates']].apply(cuf.MidPortWait, axis=1)
+    # Time waiting in the middle
+    AnimalsDF['MiddleWaitTime'] = AnimalsDF[['TrialEvents', 'TrialStates']].apply(cuf.MidPortWait, axis=1)
 
-# Time they take to innitiate the trial
-AnimalsDF['TrialInitiationTime'] = AnimalsDF[['TrialEvents']].apply(cuf.CalculateTrialInitiationTime, axis=1)
+    # Time they take to innitiate the trial
+    AnimalsDF['TrialInitiationTime'] = AnimalsDF[['TrialEvents']].apply(cuf.CalculateTrialInitiationTime, axis=1)
 
-# Calculate the right bias
-AnimalsDF['RightBias'] = cuf.CalculateRBiasWindow(np.array(AnimalsDF['FirstPoke']),\
-                                                              np.array(AnimalsDF['FirstPokeCorrect']), 50)
+    # Calculate the right bias
+    AnimalsDF['RightBias'] = cuf.CalculateRBiasWindow(np.array(AnimalsDF['FirstPoke']),\
+                                                                np.array(AnimalsDF['FirstPokeCorrect']), 50)
 
-# Calculate speed over the surrounding 6 trials
-SP_WINDOW = 6
-speed_list = []
-for Sid in pd.unique(AnimalsDF['SessionID']):
-    speed_list.append(cuf.speed_window_calculator(AnimalsDF[AnimalsDF['SessionID']==Sid], SP_WINDOW))
-# flatten the list of lists
-AnimalsDF['TrialsSpeed'] = np.array(list(chain(*[x for x in speed_list])))
+    # Calculate speed over the surrounding 6 trials
+    SP_WINDOW = 6
+    speed_list = []
+    for Sid in pd.unique(AnimalsDF['SessionID']):
+        speed_list.append(cuf.speed_window_calculator(AnimalsDF[AnimalsDF['SessionID']==Sid], SP_WINDOW))
+    # flatten the list of lists
+    AnimalsDF['TrialsSpeed'] = np.array(list(chain(*[x for x in speed_list])))
 
-# calculate if the previous trial was a success or not
-AnimalsDF['PrevTrialSuccess'] = np.insert(np.array(AnimalsDF['FirstPokeCorrect'][:-1]), 0, np.nan)
+    # calculate if the previous trial was a success or not
+    AnimalsDF['PrevTrialSuccess'] = np.insert(np.array(AnimalsDF['FirstPokeCorrect'][:-1]), 0, np.nan)
 
-# Save the dataframe
-AnimalsDF.to_pickle(batch_output + batch_name + '_dataframe.pkl')
+    # Save the dataframe
+    AnimalsDF.to_pickle(batch_output + batch_name + '_dataframe.pkl')
+
+else:
+    print('No dataframes changed, reading from file, probably repeating plots so this might be useless')
+    AnimalsDF = pd.read_pickle(batch_output + batch_name + '_dataframe.pkl')
 
 # plot
 column_to_plot = 'CumulativePerformance'
 
 fig, axs = plt.subplots(len(pd.unique(AnimalsDF['Protocol'])), 1, figsize=(17, 7 * len(pd.unique(AnimalsDF['Protocol']))), sharex=True)
-if axs.numRows > 1:
-    axs = axs.ravel()
-else:
-    axs = [axs, ]
+
+axs = axs.ravel()
+
 fig.subplots_adjust(hspace=0.3)
 for ax in axs:
     ax.axhline(50, ls='--', alpha=0.4, color='k')
@@ -259,11 +266,9 @@ for ax in axs:
 
 for ax, prot in enumerate(pd.unique(AnimalsDF['Protocol'])):
     sns.lineplot(x='CumulativeTrialNumberByProtocol', y=column_to_plot,
-                 data=AnimalsDF[AnimalsDF['Protocol']==prot],
-                 ax=axs[ax], # hue='ExperimentalGroup', 
+                 data=AnimalsDF[AnimalsDF['Protocol'] == prot],
+                 ax=axs[ax], hue='ExperimentalGroup',
                  marker=".", alpha=0.05, markeredgewidth=0, linewidth=0)
-                 # the following line splits the data and does not compute confidence intervals and mean
-                 #units="AnimalID", estimator=None)
 
     axs[ax].set_title(prot)
     axs[ax].set_ylim(bottom=40)
@@ -279,10 +284,8 @@ plt.savefig(batch_output + column_to_plot + 'ByProtocol_AnimalSelection.pdf',
 column_to_plot = 'CumulativePerformance'
 
 fig, axs = plt.subplots(len(pd.unique(AnimalsDF['Protocol'])), 1, figsize=(17, 7 * len(pd.unique(AnimalsDF['Protocol']))), sharex=True)
-if axs.numRows > 1:
-    axs = axs.ravel()
-else:
-    axs = [axs, ]
+axs = axs.ravel()
+
 fig.subplots_adjust(hspace=0.3)
 for ax in axs:
     ax.axhline(50, ls='--', alpha=0.4, color='k')
@@ -290,8 +293,8 @@ for ax in axs:
 
 for ax, prot in enumerate(pd.unique(AnimalsDF['Protocol'])):
     sns.lineplot(x='CumulativeTrialNumberByProtocol', y=column_to_plot,
-                 data=AnimalsDF[AnimalsDF['Protocol']==prot],
-                 ax=axs[ax], # hue='ExperimentalGroup', 
+                 data=AnimalsDF[AnimalsDF['Protocol'] == prot],
+                 ax=axs[ax], hue='ExperimentalGroup',
                  marker=".", alpha=0.05, markeredgewidth=0, linewidth=0,
                  # the following line splits the data and does not compute confidence intervals and mean
                  units="AnimalID", estimator=None)
