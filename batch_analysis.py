@@ -276,7 +276,7 @@ for ax, prot in enumerate(pd.unique(AnimalsDF['Protocol'])):
 for ax in axs:
     ax.xaxis.set_tick_params(which='both', labelbottom=True)
 
-plt.savefig(batch_output + column_to_plot + 'ByProtocol_AnimalSelection.pdf',
+plt.savefig(batch_output + column_to_plot + 'ByProtocol_Grouped_AnimalSelection.pdf',
             transparent=True, bbox_inches='tight')
 
 
@@ -305,7 +305,31 @@ for ax, prot in enumerate(pd.unique(AnimalsDF['Protocol'])):
 for ax in axs:
     ax.xaxis.set_tick_params(which='both', labelbottom=True)
 
-plt.savefig(batch_output + column_to_plot + 'ByProtocol_Grouped_AnimalSelection.pdf',
+plt.savefig(batch_output + column_to_plot + 'ByProtocol_AnimalSelection.pdf',
+            transparent=True, bbox_inches='tight')
+
+
+
+fig, axs = plt.subplots(len(pd.unique(AnimalsDF['AnimalID'])), 1, figsize=(17, 7 * len(pd.unique(AnimalsDF['AnimalID']))), sharex=True)
+axs = axs.ravel()
+fig.subplots_adjust(hspace=0.3)
+for ax in axs:
+    ax.axhline(50, ls='--', alpha=0.4, color='k')
+    ax.axhline(100, ls='--', alpha=0.4, color='k')
+
+for ax, prot in enumerate(pd.unique(AnimalsDF['AnimalID'])):
+    sns.lineplot(x='CumulativeTrialNumber', y=column_to_plot,
+                 data=AnimalsDF[AnimalsDF['AnimalID'] == prot],
+                 ax=axs[ax], hue='Protocol',
+                 marker=".", alpha=0.05, markeredgewidth=0, linewidth=0)
+
+    axs[ax].set_title(prot)
+    axs[ax].set_ylim(bottom=40)
+
+for ax in axs:
+    ax.xaxis.set_tick_params(which='both', labelbottom=True)
+
+plt.savefig(batch_output + column_to_plot + 'Individual_animals.pdf',
             transparent=True, bbox_inches='tight')
 
 print('--------DONE')
