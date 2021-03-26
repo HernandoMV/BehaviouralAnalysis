@@ -332,4 +332,5 @@ for ax in axs:
 plt.savefig(batch_output + column_to_plot + 'Individual_animals.pdf',
             transparent=True, bbox_inches='tight')
 
-print('--------DONE')
+
+print(AnimalsDF.groupby(['AnimalID', 'ExperimentalGroup', 'Protocol']).max()['CumulativeTrialNumberByProtocol'])
