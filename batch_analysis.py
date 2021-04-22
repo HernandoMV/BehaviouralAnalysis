@@ -10,16 +10,32 @@ from itertools import chain
 
 
 # Animals to analyze
-animals_to_analyze = [''.join(['A2A', str(x)]) for x in range(10, 28)]
+# animals_to_analyze = [''.join(['A2A', str(x)]) for x in range(10, 28)]
+# animals_to_analyze = [''.join(['SP', str(x)]) for x in range(19, 36)]
+# animals_to_analyze = [''.join(['QPM00', str(x)]) for x in range(1, 10)]
+# animals_to_analyze = ['KAA682', 'KAA683', 'KAA684', 'KAA685', 'KAA686', 'KAA757',
+#                       'C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
+animals_to_analyze = [''.join(['A2A', str(x)]) for x in [11,12,13,16,17,18,20,22]] + \
+                     ['C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
+# animals_to_analyze = [''.join(['A2A', str(x)]) for x in [10,14,15,19,21,23,24,25,26,27]] + \
+#                      ['C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
+
 # Name of batch
-batch_name = 'D2Cre-caspase'
+batch_name = 'D2-caspase_Apr2021'
+# batch_name = 'PF-caspase'
+# batch_name = 'Inference'
 # create empty list
 DataFrames = []
 # Write the experimental groups
-eg_list = ['Cortex_Buffer', 'D2Cre-caspase', 'D2Cre-caspase', 'D2Cre-caspase',
-           'Cortex_Buffer', 'Cortex_Buffer', 'D2Cre-caspase', 'D2Cre-caspase', 'D2Cre-caspase',
-           'Cortex_Buffer', 'D2Cre-caspase', 'Cortex_Buffer', 'D2Cre-caspase',
-           'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer']
+#eg_list = list(np.repeat('Sthita_cohort', 17))
+# eg_list = list(np.repeat('Quentin_cohort', 10))
+# eg_list = ['Cortex_Buffer', 'D2Cre-caspase', 'D2Cre-caspase', 'D2Cre-caspase',
+#            'Cortex_Buffer', 'Cortex_Buffer', 'D2Cre-caspase', 'D2Cre-caspase', 'D2Cre-caspase',
+#            'Cortex_Buffer', 'D2Cre-caspase', 'Cortex_Buffer', 'D2Cre-caspase',
+#            'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer']
+# eg_list = list(np.repeat('drd1cre-controls', 6)) + list(np.repeat('6OHDA-controls', 5))
+eg_list = list(np.repeat('d2-caspase', 8)) + list(np.repeat('6OHDA-controls', 5))
+
 
 BpodProtocol = '/Two_Alternative_Choice/'
 # Main directory of behavioural data to be saved, now computer dependent
@@ -137,13 +153,17 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     DataFrames = [cuf.SessionDataToDataFrame(AnimalID, ExpGroup, ExperimentDates[i], exp['SessionData'])
                   for i, exp in enumerate(ExperimentData)]
 
-    AnimalDF_new = pd.concat(DataFrames, ignore_index=True)
-    if update:
-        AnimalDF = pd.concat([AnimalDF, AnimalDF_new], ignore_index=True)
-    else:
-        AnimalDF = AnimalDF_new
+    if len(DataFrames) > 0:
+        AnimalDF_new = pd.concat(DataFrames, ignore_index=True)
+        if update:
+            AnimalDF = pd.concat([AnimalDF, AnimalDF_new], ignore_index=True)
+        else:
+            AnimalDF = AnimalDF_new
 
     # convert some NaNs to 0s (old data not having some fields)
+    if 'RewardChange' not in AnimalDF:
+        AnimalDF['RewardChange'] = 0
+        AnimalDF['RewardChangeBlock'] = 0
     AnimalDF.RewardChange.fillna(0, inplace=True)
     AnimalDF.RewardChangeBlock.fillna(0, inplace=True)
 
@@ -172,8 +192,10 @@ for egc, AnimalID in enumerate(animals_to_analyze):
 
 ##
 print('Analyzing all animals')
+all_animals_df_name = batch_output + batch_name + '_dataframe.pkl'
+
 # join dataframes
-if len(DataFrames) > 0:
+if len(DataFrames) > 0 or not os.path.isfile(all_animals_df_name):
     # Read the dataframes and merge them
     DataFrames = []
     for AID in animals_to_analyze:
@@ -246,11 +268,19 @@ if len(DataFrames) > 0:
     AnimalsDF['PrevTrialSuccess'] = np.insert(np.array(AnimalsDF['FirstPokeCorrect'][:-1]), 0, np.nan)
 
     # Save the dataframe
-    AnimalsDF.to_pickle(batch_output + batch_name + '_dataframe.pkl')
+    AnimalsDF.to_pickle(all_animals_df_name)
 
 else:
     print('No dataframes changed, reading from file, probably repeating plots so this might be useless')
-    AnimalsDF = pd.read_pickle(batch_output + batch_name + '_dataframe.pkl')
+    AnimalsDF = pd.read_pickle(all_animals_df_name)
+
+# rename the Experimental Group
+AnimalsDF.ExperimentalGroup = AnimalsDF.ExperimentalGroup.astype('str')
+for animal_id, experimental_group in zip(animals_to_analyze, eg_list):
+    AnimalsDF.at[AnimalsDF.AnimalID == animal_id, 'ExperimentalGroup'] = experimental_group
+
+# Save the dataframe
+AnimalsDF.to_pickle(all_animals_df_name)
 
 # plot
 column_to_plot = 'CumulativePerformance'
