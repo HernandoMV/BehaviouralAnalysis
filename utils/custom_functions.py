@@ -317,8 +317,8 @@ def AnalyzeSwitchTrials(df):
         # get the dataframe for that session
         Sdf = df[df['SessionTime'] == session]
         # split the dataset into opto and normal
-        Ndf = Sdf[df['OptoStim'] == 0]
-        Odf = Sdf[df['OptoStim'] == 1]
+        Ndf = Sdf[Sdf['OptoStim'] == 0]
+        Odf = Sdf[Sdf['OptoStim'] == 1]
         # percentage of correct trials on stay trials without stimulation
         StayNoStim = 100 * np.sum(Ndf[Ndf['SwitchSide'] == 0]['FirstPokeCorrect'] == 1)/len(Ndf[Ndf['SwitchSide'] == 0])
         # percentage of correct trials on switch trials without stimulation
@@ -329,7 +329,48 @@ def AnalyzeSwitchTrials(df):
         SwitchStim = 100 * np.sum(Odf[Odf['SwitchSide'] == 1]['FirstPokeCorrect'] == 1)/len(Odf[Odf['SwitchSide'] == 1])
         # fill the dataframe
         SessionDF = pd.DataFrame({'SessionTime': np.repeat(session, 4),
-                                  'Condition': np.array(['Normal_noSwitch', 'Normal_Switch', 'Opto_noSwitch', 'Opto_Switch']),
+                                  'Condition': np.array(['Left_Stay', 'Left_Switch', 'Right_Stay', 'Right_Switch']),
+                                  'PercCorrect': np.array([StayNoStim, SwitchNoStim, StayStim, SwitchStim])
+                                 })
+        # append it to list
+        sessionsInfo.append(SessionDF)
+
+    # merge into a single df and return
+    return pd.concat(sessionsInfo, ignore_index=True)
+
+
+# Analyze this with the trial side as well
+def AnalyzeSwitchTrials_for_sides(df):
+    # df is a dataframe containing the following columns:
+    # 'SwitchSide'
+    # 'FirstPokeCorrect'
+    # 'SessionTime'
+    # 'TrialSide'
+    # it returns a different dataframe with information grouped for a bar plot
+
+    # get info for the sessions
+    sessionsID = pd.unique(df['SessionTime'])
+    # initialize list to hold dataframes
+    sessionsInfo = []   
+
+    # fill the new dataframe with info for each session
+    for session in sessionsID:
+        # get the dataframe for that session
+        Sdf = df[df['SessionTime'] == session]
+        # split the dataset into opto and normal
+        Ndf = Sdf[Sdf['TrialSide'] == 1]
+        Odf = Sdf[Sdf['TrialSide'] == 2]
+        # percentage of correct trials on stay trials without stimulation
+        StayNoStim = 100 * np.sum(Ndf[Ndf['SwitchSide'] == 0]['FirstPokeCorrect'] == 1)/len(Ndf[Ndf['SwitchSide'] == 0])
+        # percentage of correct trials on switch trials without stimulation
+        SwitchNoStim = 100 * np.sum(Ndf[Ndf['SwitchSide'] == 1]['FirstPokeCorrect'] == 1)/len(Ndf[Ndf['SwitchSide'] == 1])
+        # percentage of correct trials on stay trials with stimulation
+        StayStim = 100 * np.sum(Odf[Odf['SwitchSide'] == 0]['FirstPokeCorrect'] == 1)/len(Odf[Odf['SwitchSide'] == 0])
+        # percentage of correct trials on switch trials with stimulation
+        SwitchStim = 100 * np.sum(Odf[Odf['SwitchSide'] == 1]['FirstPokeCorrect'] == 1)/len(Odf[Odf['SwitchSide'] == 1])
+        # fill the dataframe
+        SessionDF = pd.DataFrame({'SessionTime': np.repeat(session, 4),
+                                  'TrialSide': np.array(['Left_Stay', 'Left_Switch', 'Right_Stay', 'Right_Switch']),
                                   'PercCorrect': np.array([StayNoStim, SwitchNoStim, StayStim, SwitchStim])
                                  })
         # append it to list
