@@ -15,15 +15,17 @@ from itertools import chain
 # animals_to_analyze = [''.join(['QPM00', str(x)]) for x in range(1, 10)]
 # animals_to_analyze = ['KAA682', 'KAA683', 'KAA684', 'KAA685', 'KAA686', 'KAA757',
 #                       'C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
-animals_to_analyze = [''.join(['A2A', str(x)]) for x in [11,12,13,16,17,18,20,22]] + \
-                     ['C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
+# animals_to_analyze = [''.join(['A2A', str(x)]) for x in [11,12,13,16,17,18,20,22]] + \
+#                      ['C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
 # animals_to_analyze = [''.join(['A2A', str(x)]) for x in [10,14,15,19,21,23,24,25,26,27]] + \
 #                      ['C01', 'C02', 'C03', 'SomFlp04', 'SomFlp06']
+animals_to_analyze = [''.join(['CL-', f"{x:02}"]) for x in range(1, 13)]
 
 # Name of batch
-batch_name = 'D2-caspase_Apr2021'
+# batch_name = 'D2-caspase_Apr2021'
 # batch_name = 'PF-caspase'
 # batch_name = 'Inference'
+batch_name = 'Chronic_lesion_Jun2021'
 # create empty list
 DataFrames = []
 # Write the experimental groups
@@ -34,7 +36,8 @@ DataFrames = []
 #            'Cortex_Buffer', 'D2Cre-caspase', 'Cortex_Buffer', 'D2Cre-caspase',
 #            'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer', 'Cortex_Buffer']
 # eg_list = list(np.repeat('drd1cre-controls', 6)) + list(np.repeat('6OHDA-controls', 5))
-eg_list = list(np.repeat('d2-caspase', 8)) + list(np.repeat('6OHDA-controls', 5))
+# eg_list = list(np.repeat('d2-caspase', 8)) + list(np.repeat('6OHDA-controls', 5))
+eg_list = list(np.repeat('NA', 12))
 
 
 BpodProtocol = '/Two_Alternative_Choice/'

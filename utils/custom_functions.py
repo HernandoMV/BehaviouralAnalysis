@@ -597,7 +597,8 @@ def ReadAnimalData(filelist, printout=True):
         data = load_ns.loadmat(file)
 
         # if that session is empty skip it:
-        if not 'nTrials' in data['SessionData']:
+        if data is None or (not 'nTrials' in data['SessionData']):
+            print('Skipping file {0}'.format(file))
             continue
 
         ntrials = data['SessionData']['nTrials'] # this sometimes fails if the session is empty

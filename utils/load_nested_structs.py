@@ -9,8 +9,13 @@ def loadmat(filename):
     from mat files. It calls the function check keys to cure all entries
     which are still mat-objects
     '''
-    data = scipy.io.loadmat(filename, struct_as_record=False, squeeze_me=True)
-    return _check_keys(data)
+    try:
+        data = scipy.io.loadmat(filename, struct_as_record=False, squeeze_me=True)
+        return _check_keys(data)
+    except:
+        print('-->  !!!!  File {0} seems corrupted'.format(filename))
+        return None
+    
 
 def _check_keys(temp_dict):
     '''
