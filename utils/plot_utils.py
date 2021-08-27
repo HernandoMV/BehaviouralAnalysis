@@ -137,9 +137,9 @@ def summary_matrix(df):
         DifficultyValues.append(PsyPer['Difficulty'])
         PerformanceValues.append(PsyPer['Performance'])
 
-        OE.update_progress(counter / len(pd.unique(df['SessionTime'])))
+        #OE.update_progress(counter / len(pd.unique(df['SessionTime'])))
 
-    OE.update_progress(1)
+    #OE.update_progress(1)
 
     # calculate difficulty levels
     difLevels = np.unique(np.concatenate(DifficultyValues).ravel())

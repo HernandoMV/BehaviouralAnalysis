@@ -241,6 +241,7 @@ def SessionDataToDataFrame(AnimalID, ExperimentalGroup, SessionID, SessionData):
     firstpokecorrect = SessionData['FirstPokeCorrect'][0:numberOfTrials]
     correct_cp = np.cumsum(firstpokecorrect == 1)
     incorrect_cp = np.cumsum(firstpokecorrect == 0)
+    # the following line gives an error sometimes
     cumper = 100 * correct_cp / (correct_cp + incorrect_cp)
 
     # calculate when there is a side-switching event
@@ -444,6 +445,10 @@ def timeDifferences(listOfDates):
     :param listOfDates: list of size X of dates. Format: YYYYMMDD_HHMMSS
     :return: array of size X of absolute time
     '''
+
+    if len(listOfDates) == 0:
+        return []
+
     abstimeList = []
     for date in listOfDates:
         strList = [int(date[0:4]), int(date[4:6]), int(date[6:8]), int(date[9:11]), int(date[11:13]), int(date[13:15])]
@@ -739,6 +744,30 @@ def speed_window_calculator(df, window):
         speed_window[i] = trials_per_minute(trial_index[win_idx_low: win_idx_high],
                                             trial_start_timestamp[win_idx_low: win_idx_high])
     return speed_window
+
+
+def itis_calculator(df):
+    # df is a behavioural dataframe
+
+    # find inter-trial-intervals
+    itis = np.diff(df.TrialStartTimestamp)
+    # append a 0 at the beginning so it matches the trial indexes
+    # how long did the mouse take to initiate this trial from the previous?
+    itis = np.insert(itis, 0, 0)
+
+    return itis
+
+
+def find_disengaged_trials(itis):
+    # itis is a vector of inter trial intervals
+    # this function returns indexes
+
+    disengaged_indexes = np.where(itis > 3 * np.median(itis))
+
+    return disengaged_indexes
+
+
+
 
 
 DATA_FOLDER_PATHS = {
