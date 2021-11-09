@@ -12,6 +12,7 @@ sys.path.append("../")  # go to parent
 import BehaviouralAnalysis.utils.load_nested_structs as load_ns
 #import glob
 import socket
+import scipy.optimize as opt
 
 
 def first_diff_zero(array):
@@ -767,6 +768,105 @@ def find_disengaged_trials(itis):
     return disengaged_indexes
 
 
+def sigmoid_func(x, slope, bias, upper_lapse, lower_lapse):
+    return (upper_lapse - lower_lapse) / (1 + np.exp(-slope * (x - bias))) + lower_lapse
+
+
+def linear_func(x, beta, alpha):
+    return beta * x + alpha
+
+
+def fit_custom_sigmoid(difficulty, performance):
+    # scale the data
+    xdatasc = (difficulty - difficulty.mean()) / difficulty.std()
+    ydatasc = performance / 100
+
+    cost_func = lambda x: np.mean(np.abs(sigmoid_func(xdatasc, x[0], x[1], x[2], x[3]) - ydatasc))
+
+    res = opt.minimize(cost_func, [-3, 0, 1, 0])
+
+    #rescale
+    slope = res.x[0] / difficulty.std()
+    bias = res.x[1] * difficulty.std() + difficulty.mean()
+    upper_lapse = res.x[2] * 100
+    lower_lapse = res.x[3] * 100
+
+    return slope, bias, upper_lapse, lower_lapse
+
+
+def get_random_optolike_choices(df, n_times=100):
+    '''
+    gets a dataframe that has optostimulated trials,
+    and returns, per each difficulty,
+    choices sampled randomly from the non-stimulated trials, n_times
+    '''
+    normal_df, opto_df = splitOpto(df)
+    fake_opto_side_sel_samples = np.zeros((n_times, len(opto_df['SideSelected'])))
+
+    for i in range(n_times):
+        fake_opto_side_sel = np.empty_like(opto_df['SideSelected'])
+        for curr_diff in np.unique(opto_df['Difficulty']):
+            diff_opto_mask = opto_df['Difficulty'] == curr_diff
+            diff_normal_mask = normal_df['Difficulty'] == curr_diff
+            population = normal_df['SideSelected'][diff_normal_mask]
+            fake_opto_side_sel[diff_opto_mask] = np.random.choice(population, sum(diff_opto_mask))
+        fake_opto_side_sel_samples[i] = fake_opto_side_sel
+
+    return fake_opto_side_sel_samples
+
+
+def get_mean_and_std_of_random_optolike_choices(df, n_times=100):
+
+    # deprecated
+
+    '''
+    gets a dataframe that has optostimulated trials, and
+    outputs, per difficulty, the mean and the std of
+    choices sampled randomly from the non-stimulated trials, n_times
+    '''
+    normal_df, opto_df = splitOpto(df)
+
+    available_difficulties = np.unique(opto_df['Difficulty'])
+    random_means = np.zeros_like(available_difficulties)
+    random_std = np.zeros_like(available_difficulties)
+
+    for k, curr_diff in enumerate(available_difficulties):
+        diff_opto_mask = opto_df['Difficulty'] == curr_diff
+        diff_normal_mask = normal_df['Difficulty'] == curr_diff
+        population = normal_df['SideSelected'][diff_normal_mask]
+        if len(population) == 0:
+            sys.exit('No normal trials with that difficulty')
+        fake_opto_side_sel_list = np.zeros(n_times)
+        for i in range(n_times):
+            fake_opto_side_sel_list[i] = np.nanmean(np.random.choice(population, sum(diff_opto_mask)))
+        random_means[k] = np.nanmean(fake_opto_side_sel_list)
+        random_std[k] = np.nanstd(fake_opto_side_sel_list)
+
+    df_to_return = pd.DataFrame({
+        'Difficulty': available_difficulties,
+        'Mean_of_choice': 100 * (random_means - 1),
+        'Std_of_choice': 100 * random_std
+    })
+
+    return df_to_return
+
+
+def get_choices(sideSelected, trialsDif):
+    '''
+    returns mean of choices per difficulty
+    '''
+    # Calculate performance
+    # Initialize values
+    difficulty = np.unique(trialsDif[~np.isnan(trialsDif)])
+    choice_mean = np.full(len(difficulty), np.nan)
+    for i in range(len(difficulty)):
+        if np.nansum(sideSelected[trialsDif == difficulty[i]]) > 0:
+            choice_mean[i] = 100 * (np.nanmean(sideSelected[trialsDif == difficulty[i]]) - 1)
+
+        else:
+            choice_mean[i] = np.nan
+
+    return difficulty, choice_mean
 
 
 

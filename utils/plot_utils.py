@@ -1,4 +1,5 @@
 # plot_utils
+from numpy.core.numeric import NaN
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,6 +11,7 @@ import OpenEphys_Analysis.utils.custom_functions as OE
 import seaborn as sns
 from matplotlib.lines import Line2D
 from scipy import stats
+import random
 
 
 def axvlines(xs, ax=None, **plot_kwargs):
@@ -268,3 +270,80 @@ def add_stats(ax=None, xvals=(0,1), yval=None, pval=None, n_asterisks = 1):
     ax.plot([xvals[0], xvals[0]], [yval, yval + vbsize], 'gray')
     ax.plot([xvals[1], xvals[1]], [yval, yval + vbsize], 'gray')
 
+
+def plot_regression(df, ax, color, label, plot_points=True):
+
+    if ax is None:
+        ax = plt.gca()
+
+    trialsDif = np.array(df['TrialHighPerc'])
+    sideSelected = np.array(df['FirstPoke'])
+
+    difficulty, performance = cuf.get_choices(sideSelected, trialsDif)
+
+    slope, bias, upper_lapse, lower_lapse = cuf.fit_custom_sigmoid(difficulty, performance)
+
+    x = np.linspace(0, 100)
+
+    if plot_points:
+        ax.plot(difficulty, performance, 'o', ms=8, color=color, label=label)
+
+    sns.lineplot(x=x,
+                 y=cuf.sigmoid_func(x, *[slope, bias, upper_lapse, lower_lapse]),
+                 color=color,
+                 ci=None,
+                 ax=ax)
+
+    return ax
+
+
+def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN], normalize=False, jitter=0, color=None):
+
+    if color is None:
+        color = 'c'
+
+    imp_jit = random.uniform(-jitter, jitter)
+
+    if ax is None:
+        ax = plt.gca()
+
+    normal_df, opto_df = cuf.splitOpto(df)
+
+    difficulty_n, choice_n = cuf.get_choices(np.array(normal_df['SideSelected']), np.array(normal_df['Difficulty']))
+    difficulty_o, choice_o = cuf.get_choices(np.array(opto_df['SideSelected']), np.array(opto_df['Difficulty']))
+
+    if normalize:
+        # check here that there are opto trials for each difficulty
+        norm_mask = np.where(np.in1d(difficulty_n, difficulty_o))[0]
+
+        choice_n = choice_n[norm_mask] - choice_o
+
+    if not normalize:
+        ax.plot(difficulty_n + imp_jit, choice_n, 'o', ms=10, color='k')
+
+    tr_means = fake_dataset_m_and_std[1]
+    tr_dif = fake_dataset_m_and_std[0]
+    if normalize:
+        tr_means = tr_means[norm_mask] - choice_o
+        tr_dif = tr_dif[norm_mask]
+
+    ax.plot(tr_dif + imp_jit, tr_means, 'o', color=color, ms=8)
+
+    for dif in fake_dataset_m_and_std[0]:
+        dif_idx = np.where(fake_dataset_m_and_std[0] == dif)
+        m = np.float(fake_dataset_m_and_std[1][dif_idx])
+        s = np.float(fake_dataset_m_and_std[2][dif_idx])
+
+        if normalize:
+            dif_index = np.where(difficulty_o == dif)[0]
+            if dif_index.size > 0:
+                m = m - choice_o[dif_index]
+                ax.plot([dif + imp_jit, dif + imp_jit], [m-s, m+s], '-', color=color)
+
+        else:
+            ax.plot([dif + imp_jit, dif + imp_jit], [m-s, m+s], '-', color='c')
+
+    if not normalize:
+        ax.plot(difficulty_o, choice_o, 'o', ms=8, color='m')
+
+    return ax

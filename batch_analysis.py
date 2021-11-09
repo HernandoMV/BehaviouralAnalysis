@@ -8,6 +8,7 @@ import numpy as np
 import seaborn as sns
 import pandas as pd
 from itertools import chain
+import math
 
 
 # Animals to analyze
@@ -39,7 +40,9 @@ from itertools import chain
 # animals_to_analyze = [''.join(['A2A', str(x)]) for x in range(28, 34)]
 # animals_to_analyze = ['D1opto-01', 'D1opto-02', 'D2opto-01', 'D2opto-02']
 # animals_to_analyze = ['N01', 'N02', 'N03', 'N05', 'Somcre04', 'SL_NMDA1', 'SL_NMDA2', 'SL_NMDA3']
-animals_to_analyze = [''.join(['EY14-0', str(x)]) for x in range(1, 7)] + [''.join(['A2A', str(x)]) for x in range(28, 34)]
+# animals_to_analyze = [''.join(['EY14-0', str(x)]) for x in range(1, 7)] + [''.join(['A2A', str(x)]) for x in range(28, 34)]
+# animals_to_analyze = [''.join(['varS', str(x)]) for x in range(1, 7)]
+animals_to_analyze = [''.join(['D1opto-0', str(x)]) for x in range(1,10)] + [''.join(['D2opto-0', str(x)]) for x in range(1,8)]
 
 # Name of batch
 # batch_name = 'D2-caspase_Apr2021'
@@ -56,9 +59,9 @@ animals_to_analyze = [''.join(['EY14-0', str(x)]) for x in range(1, 7)] + [''.jo
 # batch_name = 'Controls_muscimol-2'
 # batch_name = 'Caspase-d1-pre_HMV-cohort-1'
 # batch_name = 'Caspase-d2-pre_HMV-cohort-2'
-# batch_name = 'D1andD2opto-cohort-1'
+batch_name = 'D1andD2opto'
 # batch_name = 'NMDA'
-batch_name = 'Caspase-d1-and-d2-pre_HMV'
+# batch_name = 'variable_intensity_test'
 
 # create empty list
 DataFrames = []
@@ -81,9 +84,10 @@ DataFrames = []
 # eg_list = list(np.repeat('For_muscimol', 4))
 # eg_list = ['cre-neg', 'cre-pos', 'cre-pos', 'cre-neg', 'cre-pos', 'cre-pos']
 # eg_list = ['Caspase', 'Caspase', 'GFP', 'GFP', 'GFP', 'GFP']
-# eg_list = list(np.repeat('optoinhibition', 4))
+eg_list = list(np.repeat('optoinhibition', 16))
 # eg_list = list(np.repeat('NMDA', 8))
-eg_list = ['control', 'd1-caspase', 'd1-caspase', 'control', 'd1-caspase', 'd1-caspase', 'd2-caspase', 'd2-caspase', 'control', 'control', 'control', 'control']
+# eg_list = ['control', 'd1-caspase', 'd1-caspase', 'control', 'd1-caspase', 'd1-caspase', 'd2-caspase', 'd2-caspase', 'control', 'control', 'control', 'control']
+# eg_list = list(np.repeat('varint', 6))
 
 BpodProtocol = '/Two_Alternative_Choice/'
 # Main directory of behavioural data to be saved, now computer dependent
@@ -181,7 +185,7 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     # Clean new data by number of trials
     # Remove those experiments for which a proper time has not been found (old ones that are missing a lot of variables)
     # Or those with low number of trials
-    minNoOfTr = 30
+    minNoOfTr = 60
     idxToRemove = cuf.identifyIdx(ExperimentDates_Raw, ntrialsDistribution, minNoOfTr)
 
     for idx in idxToRemove:
@@ -225,8 +229,8 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     fig, ax = plt.subplots(figsize=(15,5))
     ax.axhline(50, ls='--', alpha=0.4, color='k')
     ax.axhline(100, ls='--', alpha=0.4, color='k')
-    sns.lineplot(x = AnimalDF.index, y = 'CumulativePerformance', data=AnimalDF, hue = 'Protocol',
-                marker=".", alpha = 0.05, markeredgewidth=0, linewidth=0)
+    sns.lineplot(x = AnimalDF.index, y = 'CumulativePerformance', data=AnimalDF, hue='Protocol',
+                marker=".", alpha=0.05, markeredgewidth=0, linewidth=0)
 
     lgd = plt.legend(bbox_to_anchor=(1.005, 1), loc=2, borderaxespad=0.)
     for l in lgd.get_lines():
@@ -236,6 +240,59 @@ for egc, AnimalID in enumerate(animals_to_analyze):
     plt.savefig(outputDir + AnimalID + '_CumulativePerformance.pdf',
                 transparent=True, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
+
+    # plot each session
+    # Make a plot with the performance for all sessions
+    # generate a list of the conditions, colors and labels
+    CondList = [(AnimalDF['OptoStim'] == 0),
+                (AnimalDF['OptoStim'] == 1)]
+    ColorList = ['c', 'm']
+    LabelList = ['Normal', 'Opto']
+
+    fig, axs = plt.subplots(math.ceil(len(pd.unique(AnimalDF['SessionTime']))/4), 4,
+                            figsize=(15, len(pd.unique(AnimalDF['SessionTime']))),
+                            facecolor='w', edgecolor='k')
+    fig.subplots_adjust(hspace=.2, wspace=.2)
+    axs = axs.ravel()
+    for i, ax in enumerate(axs):
+        if i < len((pd.unique(AnimalDF['SessionTime']))):
+            ax.hlines(50, 0, 100, linestyles='dotted', alpha=0.4)
+        ax.axis('off')
+    # process data from all experiments
+    for counter, session in enumerate(pd.unique(AnimalDF['SessionTime'])):
+        ax = axs[counter]
+        for i, condition in enumerate(CondList):
+            predictDif, PsyPer, fakePredictions, predictPer, _ = \
+            cuf.PP_ProcessExperiment(AnimalDF[(AnimalDF['SessionTime'] == session) & condition], bootstrap=5)
+            if PsyPer:
+                plot_utils.PlotPsychPerformance(dataDif=PsyPer['Difficulty'], dataPerf=PsyPer['Performance'],
+                                                predictDif=predictDif, ax=ax, fakePred=fakePredictions,
+                                                realPred=predictPer, color=ColorList[i], label=LabelList[i])
+
+        ax.get_legend().remove()
+        ax.text(.5, .95, str(counter) + ': ' + (session),
+                        horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
+
+        axs[counter].text(.5,.85, AnimalDF[(AnimalDF['SessionTime'] == session)].Protocol.unique()[0],
+                        horizontalalignment='center', transform=axs[counter].transAxes)
+        axs[counter].text(.5,.75, AnimalDF[(AnimalDF['SessionTime'] == session)].Stimulation.unique()[0],
+                        horizontalalignment='center', transform=axs[counter].transAxes)
+        axs[counter].text(.5,.65, 'No of trials: ' + str(len(AnimalDF[(AnimalDF['SessionTime'] == session)])),
+                        horizontalalignment='center', transform=axs[counter].transAxes)
+
+        ax.axis('on')
+        # remove some ticks
+        ax.tick_params(which='both', top=False, bottom='on', left='on', right=False,
+                    labelleft='on', labelbottom='on')
+        if not ax.is_first_col():
+            ax.set_ylabel('')
+            ax.set_yticks([])
+        if not ax.is_last_row():
+            ax.set_xlabel('')
+            ax.set_xticks([])
+        plt.tight_layout()
+
+    plt.savefig(outputDir + AnimalID + '_psychometricPerformanceAllSessions.pdf', transparent=True, bbox_inches='tight')
 
 
 ##
