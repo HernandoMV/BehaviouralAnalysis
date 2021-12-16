@@ -42,7 +42,9 @@ import math
 # animals_to_analyze = ['N01', 'N02', 'N03', 'N05', 'Somcre04', 'SL_NMDA1', 'SL_NMDA2', 'SL_NMDA3']
 # animals_to_analyze = [''.join(['EY14-0', str(x)]) for x in range(1, 7)] + [''.join(['A2A', str(x)]) for x in range(28, 34)]
 # animals_to_analyze = [''.join(['varS', str(x)]) for x in range(1, 7)]
-animals_to_analyze = [''.join(['D1opto-0', str(x)]) for x in range(1,10)] + [''.join(['D2opto-0', str(x)]) for x in range(1,8)]
+# animals_to_analyze = [''.join(['D1opto-0', str(x)]) for x in range(1,10)] + [''.join(['D2opto-0', str(x)]) for x in range(1,8)]
+# animals_to_analyze = [''.join(['CL-', f"{x:02}"]) for x in range(13, 30)] + [''.join(['LFP', f"{x:02}"]) for x in range(16, 22)]
+animals_to_analyze = [''.join(['D1opto-', str(x)]) for x in range(10,15)] + [''.join(['D2opto-0', str(x)]) for x in range(8,10)] + [''.join(['D2opto-', str(x)]) for x in range(10,13)]
 
 # Name of batch
 # batch_name = 'D2-caspase_Apr2021'
@@ -59,9 +61,11 @@ animals_to_analyze = [''.join(['D1opto-0', str(x)]) for x in range(1,10)] + [''.
 # batch_name = 'Controls_muscimol-2'
 # batch_name = 'Caspase-d1-pre_HMV-cohort-1'
 # batch_name = 'Caspase-d2-pre_HMV-cohort-2'
-batch_name = 'D1andD2opto'
+# batch_name = 'D1andD2opto'
 # batch_name = 'NMDA'
 # batch_name = 'variable_intensity_test'
+# batch_name = 'Chronic_lesion_and_controls_III_Dec2021'
+batch_name = 'D1andD2opto-learning_Dec21'
 
 # create empty list
 DataFrames = []
@@ -84,10 +88,12 @@ DataFrames = []
 # eg_list = list(np.repeat('For_muscimol', 4))
 # eg_list = ['cre-neg', 'cre-pos', 'cre-pos', 'cre-neg', 'cre-pos', 'cre-pos']
 # eg_list = ['Caspase', 'Caspase', 'GFP', 'GFP', 'GFP', 'GFP']
-eg_list = list(np.repeat('optoinhibition', 16))
+# eg_list = list(np.repeat('optoinhibition', 16))
 # eg_list = list(np.repeat('NMDA', 8))
 # eg_list = ['control', 'd1-caspase', 'd1-caspase', 'control', 'd1-caspase', 'd1-caspase', 'd2-caspase', 'd2-caspase', 'control', 'control', 'control', 'control']
 # eg_list = list(np.repeat('varint', 6))
+# eg_list = list(np.repeat('Lesion', 12)) + list(np.repeat('Control', 11))# + list(np.repeat('Control-LFP', 6))
+eg_list = list(np.repeat('optoinhibition', 10))
 
 BpodProtocol = '/Two_Alternative_Choice/'
 # Main directory of behavioural data to be saved, now computer dependent
@@ -101,6 +107,7 @@ if not os.path.isdir(batch_output):
 
 # loop through
 for egc, AnimalID in enumerate(animals_to_analyze):
+    print('')
     print('----- Analyzing animal {}'.format(AnimalID))
     # get experimental group
     ExpGroup = eg_list[egc]
@@ -143,14 +150,14 @@ for egc, AnimalID in enumerate(animals_to_analyze):
             print('I am overridding what you have written')
             print('')
             ExpGroup = exp_group_in_dataset
-        print('Previously discarded (probably) files:')
-        for i in old_files:
-            print(ntpath.basename(i))
-        print('If you want to incorporate any of these, delete the .pkl dataframe and start over')
+        if old_files:
+            print('Previously discarded (probably) files:')
+            for i in old_files:
+                print(ntpath.basename(i))
+            print('If you want to incorporate any of these, delete the .pkl dataframe and start over')
     else:
         print('No previous file located, considering all new data')
     # New data
-    print('')
     print('New data:')
     # Read new data that is not in the previously analized dataset
     ExperimentFiles, ExperimentData, ntrialsDistribution, Protocols, Stimulations, Muscimol =\
@@ -239,6 +246,8 @@ for egc, AnimalID in enumerate(animals_to_analyze):
 
     plt.savefig(outputDir + AnimalID + '_CumulativePerformance.pdf',
                 transparent=True, bbox_extra_artists=(lgd,), bbox_inches='tight')
+    
+    plt.close(fig)
 
 
     # plot each session
@@ -293,7 +302,7 @@ for egc, AnimalID in enumerate(animals_to_analyze):
         plt.tight_layout()
 
     plt.savefig(outputDir + AnimalID + '_psychometricPerformanceAllSessions.pdf', transparent=True, bbox_inches='tight')
-
+    plt.close(fig)
 
 ##
 print('Analyzing all animals')
@@ -432,7 +441,7 @@ for ax in axs:
 
 plt.savefig(batch_output + column_to_plot + 'Individual_animals.pdf',
             transparent=True, bbox_inches='tight')
-
+plt.close(fig)
 
 # plot also the heatmaps with training information
 fig, ax = plt.subplots(len(pd.unique(AnimalsDF.AnimalID)), 1, figsize=(17,5 * len(pd.unique(AnimalsDF.AnimalID))))
@@ -445,7 +454,7 @@ for i, animal in enumerate(pd.unique(AnimalsDF.AnimalID)):
 
 plt.savefig(batch_output + column_to_plot + 'psychometricPerformanceAllSessionsHeatmap.pdf',
             transparent=True,dpi = 500, bbox_inches='tight')
-
+plt.close(fig)
 
 # select only auditory and limit to 5000 trials
 protocols_selected = ['Auditory']
@@ -499,7 +508,7 @@ plt.title(batch_name + ' Task learning progression')
 
 plt.savefig(batch_output + column_to_plot + '_Performance_between_groups.pdf', transparent=True, bbox_inches='tight')
 
-
+plt.close(fig1)
 
 
 # plot
@@ -530,7 +539,7 @@ for ax in axs:
 
 plt.savefig(batch_output + column_to_plot + 'ByProtocol_Grouped_AnimalSelection.pdf',
             transparent=True, bbox_inches='tight')
-
+plt.close(fig)
 
 # plot
 
@@ -561,7 +570,7 @@ for ax in axs:
 
 plt.savefig(batch_output + column_to_plot + 'ByProtocol_AnimalSelection.pdf',
             transparent=True, bbox_inches='tight')
-
+plt.close(fig)
 
 
 # print number of trials per protocol
