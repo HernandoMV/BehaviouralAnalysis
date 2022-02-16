@@ -292,15 +292,16 @@ def plot_regression(df, ax, color, label, plot_points=True):
                  y=cuf.sigmoid_func(x, *[slope, bias, upper_lapse, lower_lapse]),
                  color=color,
                  ci=None,
-                 ax=ax)
+                 ax=ax,
+                 label=label)
 
     return ax
 
 
-def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN], normalize=False, jitter=0, color=None):
+def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN], normalize=False, jitter=0, colorlist=None):
 
-    if color is None:
-        color = 'c'
+    if colorlist is None:
+        colorlist = ['c', 'm']
 
     imp_jit = random.uniform(-jitter, jitter)
 
@@ -319,7 +320,7 @@ def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN],
         choice_n = choice_n[norm_mask] - choice_o
 
     if not normalize:
-        ax.plot(difficulty_n + imp_jit, choice_n, 'o', ms=10, color='k')
+        ax.plot(difficulty_n + imp_jit, choice_n, 'o', ms=10, color=colorlist[0])
 
     tr_means = fake_dataset_m_and_std[1]
     tr_dif = fake_dataset_m_and_std[0]
@@ -327,7 +328,7 @@ def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN],
         tr_means = tr_means[norm_mask] - choice_o
         tr_dif = tr_dif[norm_mask]
 
-    ax.plot(tr_dif + imp_jit, tr_means, 'o', color=color, ms=8)
+    ax.plot(tr_dif + imp_jit, tr_means, 'o', color=colorlist[0], ms=8)
 
     for dif in fake_dataset_m_and_std[0]:
         dif_idx = np.where(fake_dataset_m_and_std[0] == dif)
@@ -338,12 +339,12 @@ def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN],
             dif_index = np.where(difficulty_o == dif)[0]
             if dif_index.size > 0:
                 m = m - choice_o[dif_index]
-                ax.plot([dif + imp_jit, dif + imp_jit], [m-s, m+s], '-', color=color)
+                ax.plot([dif + imp_jit, dif + imp_jit], [m-s, m+s], '-', color=colorlist[0])
 
         else:
-            ax.plot([dif + imp_jit, dif + imp_jit], [m-s, m+s], '-', color='c')
+            ax.plot([dif + imp_jit, dif + imp_jit], [m-s, m+s], '-', color=colorlist[0])
 
     if not normalize:
-        ax.plot(difficulty_o, choice_o, 'o', ms=8, color='m')
+        ax.plot(difficulty_o, choice_o, 'o', ms=8, color=colorlist[1])
 
     return ax
