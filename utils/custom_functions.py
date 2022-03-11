@@ -331,7 +331,7 @@ def AnalyzeSwitchTrials(df):
         SwitchStim = 100 * np.sum(Odf[Odf['SwitchSide'] == 1]['FirstPokeCorrect'] == 1)/len(Odf[Odf['SwitchSide'] == 1])
         # fill the dataframe
         SessionDF = pd.DataFrame({'SessionTime': np.repeat(session, 4),
-                                  'Condition': np.array(['Left_Stay', 'Left_Switch', 'Right_Stay', 'Right_Switch']),
+                                  'Condition': np.array(['Normal_Stay', 'Normal_Switch', 'Opto_Stay', 'Opto_Switch']),
                                   'PercCorrect': np.array([StayNoStim, SwitchNoStim, StayStim, SwitchStim])
                                  })
         # append it to list
