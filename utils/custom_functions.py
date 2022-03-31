@@ -66,12 +66,12 @@ def PsychPerformance(trialsDif, sideSelected):
         # masks to remove nans for logistic regression
         nan_mask = ~(np.isnan(trialsDif) | np.isnan(sideSelected))
         # logistic regression
-        try:
+        if len(np.unique(sideSelected)) > 1:
             clf = LogisticRegressionCV(cv=3).fit(trialsDif[nan_mask, np.newaxis], sideSelected[nan_mask])
-        except Exception:
+        else:
             # in case a model cannot be fitted (e.g. mouse always goes to the left)
             # fit model on dummy data
-            clf = LogisticRegressionCV(cv=3).fit(np.array([0, 0, 100, 100]).reshape(-1, 1), np.array([1, 0, 1, 0]))
+            clf = LogisticRegressionCV(cv=3).fit(np.array([0, 0, 0, 100, 100, 100]).reshape(-1, 1), np.array([1, 0, 1, 0, 1, 0]))
         # Calculate performance
         # Initialize values
         difficulty = np.unique(trialsDif[~np.isnan(trialsDif)])
@@ -145,12 +145,12 @@ def BootstrapPerformances(trialsDif, sideSelected, ntimes, prediction_difficulti
         fake_data = generate_fake_data(difficulties, sideselection)
         try:
             clf_fake = LogisticRegressionCV(cv=3).fit(difficulties.reshape(-1, 1), fake_data)
+            predictPerFake[:, i] = 100 * clf_fake.predict_proba(prediction_difficulties)[:, 1]
         except Exception:
             # in case a model cannot be fitted (e.g. mouse always goes to the left)
             # fit model on dummy data
-            clf_fake = LogisticRegressionCV(cv=3).fit(np.array([0, 0, 100, 100]).reshape(-1, 1), np.array([1, 0, 1, 0]))
-
-        predictPerFake[:, i] = 100 * clf_fake.predict_proba(prediction_difficulties)[:, 1]
+            clf_fake = LogisticRegressionCV(cv=3).fit(np.array([0, 0, 0, 100, 100, 100]).reshape(-1, 1), np.array([1, 0, 1, 0, 1, 0]))
+        
 
     return predictPerFake
 

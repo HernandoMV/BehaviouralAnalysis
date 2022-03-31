@@ -44,7 +44,8 @@ import math
 # animals_to_analyze = [''.join(['varS', str(x)]) for x in range(1, 7)]
 # animals_to_analyze = [''.join(['D1opto-0', str(x)]) for x in range(1,10)] + [''.join(['D2opto-0', str(x)]) for x in range(1,8)]
 # animals_to_analyze = [''.join(['CL-', f"{x:02}"]) for x in range(13, 30)] + [''.join(['LFP', f"{x:02}"]) for x in range(16, 22)]
-animals_to_analyze = [''.join(['D1opto-', str(x)]) for x in range(10,15)] + [''.join(['D2opto-0', str(x)]) for x in range(8,10)] + [''.join(['D2opto-', str(x)]) for x in range(10,13)]
+# animals_to_analyze = [''.join(['D1opto-', str(x)]) for x in range(10,15)] + [''.join(['D2opto-0', str(x)]) for x in range(8,10)] + [''.join(['D2opto-', str(x)]) for x in range(10,13)]
+animals_to_analyze = [''.join(['DAopto-0', str(x)]) for x in range(1,10)] + ['DAopto-10']
 
 # Name of batch
 # batch_name = 'D2-caspase_Apr2021'
@@ -65,7 +66,8 @@ animals_to_analyze = [''.join(['D1opto-', str(x)]) for x in range(10,15)] + [''.
 # batch_name = 'NMDA'
 # batch_name = 'variable_intensity_test'
 # batch_name = 'Chronic_lesion_and_controls_III_Dec2021'
-batch_name = 'D1andD2opto-learning_Dec21'
+# batch_name = 'D1andD2opto-learning_Dec21'
+batch_name = 'DAoptostimulation_Mar22'
 
 # create empty list
 DataFrames = []
@@ -93,7 +95,8 @@ DataFrames = []
 # eg_list = ['control', 'd1-caspase', 'd1-caspase', 'control', 'd1-caspase', 'd1-caspase', 'd2-caspase', 'd2-caspase', 'control', 'control', 'control', 'control']
 # eg_list = list(np.repeat('varint', 6))
 # eg_list = list(np.repeat('Lesion', 12)) + list(np.repeat('Control', 11))# + list(np.repeat('Control-LFP', 6))
-eg_list = list(np.repeat('optoinhibition', 10))
+# eg_list = list(np.repeat('optoinhibition', 10))
+eg_list = list(np.repeat('DAoptostimulation', 10))
 
 BpodProtocol = '/Two_Alternative_Choice/'
 # Main directory of behavioural data to be saved, now computer dependent
