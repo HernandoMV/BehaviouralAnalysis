@@ -869,6 +869,18 @@ def get_choices(sideSelected, trialsDif):
     return difficulty, choice_mean
 
 
+def get_general_right_bias(df_one, df_two):
+    "returns the general bias to the right, between df_one and df_two"
+    # mean choices for each data frame for each difficulty
+    tdone = np.array(df_one["TrialHighPerc"])
+    ssone = np.array(df_one["FirstPoke"])
+    _, perf_one = get_choices(ssone, tdone)
+    tdtwo = np.array(df_two["TrialHighPerc"])
+    sstwo = np.array(df_two["FirstPoke"])
+    _, perf_two = get_choices(sstwo, tdtwo)
+
+    return np.mean(perf_one) - np.mean(perf_two)
+
 
 DATA_FOLDER_PATHS = {
     'nailgun': '/home/hernandom/data',
