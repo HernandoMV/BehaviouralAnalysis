@@ -229,7 +229,7 @@ conditions = np.logical_and(conditions, opto_df.Contralateral==True)
 conditions = np.logical_and(conditions, opto_df.StimPort=='Center')
 
 # select only the tail
-conditions = np.logical_and(conditions, opto_df.FiberArea=='tStr')
+# conditions = np.logical_and(conditions, opto_df.FiberArea=='tStr')
 
 opto_df_sel = opto_df[conditions].copy()
 
@@ -246,7 +246,7 @@ opto_df_sel.drop(idx_to_remove, inplace=True)
 sns.lineplot(data=opto_df_sel,
              x="ProgressionBlockIndex",
              y="BiasToStimMovement",
-             hue="AnimalID")
+             hue="FiberArea")
 # %%
 # TODO: Identify repeated sessions and calculate mean
 # make a function to calculate the mean of the items in opto_df_sel that have the same AnimalID,
@@ -256,3 +256,70 @@ sns.lineplot(data=opto_df_sel,
 
 # %%
 # Identify repeated sessions and calculate mean
+
+
+def find_indexes_of_repeated_cases(opto_df_sel, same_columns):
+    # Find indexes of repeated cases
+    equal_indexes = []
+
+    for index in opto_df_sel.index:
+        data = opto_df_sel.loc[index][same_columns].values
+        i_list = []
+        for i in opto_df_sel.index:
+            if np.array_equal(data, opto_df_sel.loc[i][same_columns].values):
+                i_list.append(i)
+        if len(i_list) > 1:
+            if i_list not in equal_indexes:
+                equal_indexes.append(i_list)
+
+    return equal_indexes
+
+
+def merge_repeated_cases_for_dopamine_optostimulation(opto_df_sel):
+
+    # Find indexes of repeated cases
+    same_columns = [
+        "AnimalID",
+        "FiberSide",
+        "FiberArea",
+        "StimSide",
+        "StimPort",
+        "Contralateral",
+        "ProgressionBlockIndex"
+    ]
+    equal_indexes = find_indexes_of_repeated_cases(opto_df_sel, same_columns)
+
+    # Combine those cases
+    for case in equal_indexes:
+        sub_df = opto_df_sel.loc[case].copy()
+        # create new instance to add to the dataframe,
+        # initiating it in the first index of the set
+        new_element = sub_df.iloc[0].copy()
+        # change relevant values
+        new_element.SessionID = "merge"
+        new_element.Ntrials = np.mean(sub_df.Ntrials.values)
+        new_element.Protocol = "merge"
+        new_element.InitialBias = np.nan
+        new_element.BiasToStimMovement = np.mean(sub_df.BiasToStimMovement.values)
+
+        # remove old indexes
+        opto_df_sel.drop(case, inplace=True)
+        # add new row
+        opto_df_sel = opto_df_sel.append(new_element)
+    opto_df_sel.sort_index(inplace=True)
+
+    return opto_df_sel
+
+# %%
+ods_merge = merge_repeated_cases_for_dopamine_optostimulation(opto_df_sel)
+# %%
+# plot all sessions
+sns.lineplot(data=ods_merge,
+             x="ProgressionBlockIndex",
+             y="BiasToStimMovement",
+             hue="FiberArea")
+
+# %%
+# TODO: add a shuffled trials dataset
+# TODO: find point where significance difference is reached
+# TODO: as alternative, find pval of the trend
