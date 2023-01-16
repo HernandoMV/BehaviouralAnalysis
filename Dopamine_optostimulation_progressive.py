@@ -22,7 +22,7 @@ from ast import literal_eval
 # trials w/o stimulation
 ini_trials = 150
 # size of the window
-trials_window_size = 75
+trials_window_size = 150
 # sampling step
 sampling_step = 25
 
