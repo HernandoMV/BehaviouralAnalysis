@@ -9,7 +9,7 @@ effect on the bias
 %load_ext autoreload
 %autoreload 2
 from utils import custom_functions as cuf
-
+from matplotlib import pyplot as plt
 %matplotlib inline
 import numpy as np
 import seaborn as sns
@@ -430,6 +430,10 @@ orig_y_lim = ax.get_ylim()[1]
 for i, pvalpos in enumerate(significance_mask):
     if pvalpos:
         ax.text(x=list(pval_dict.keys())[i], y=0.9 * orig_y_lim, s='*')
+
+data_directory = ''
+plt.savefig(data_directory + 'DAstim_progressive.pdf', transparent=True, bbox_inches='tight')
+
 
 # TODO: as alternative, find pval of the trend
 
