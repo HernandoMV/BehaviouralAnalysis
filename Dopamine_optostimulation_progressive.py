@@ -6,11 +6,11 @@ effect on the bias
 """
 
 #%% Import libraries
-%load_ext autoreload
-%autoreload 2
+# %load_ext autoreload
+# %autoreload 2
 from utils import custom_functions as cuf
 from matplotlib import pyplot as plt
-%matplotlib inline
+# %matplotlib inline
 import numpy as np
 import seaborn as sns
 import pandas as pd
@@ -27,8 +27,8 @@ trials_window_size = 150
 sampling_step = 25
 
 # %% Get data
-# data_path = "/mnt/c/Users/herny/Documents/GitHub/APE_paper/data/DA-optostimulation_dataframe.csv"
-data_path = "/home/hernandom/GitHub/APE_paper/data/DA-optostimulation_dataframe.csv"
+data_path = "/mnt/c/Users/herny/Documents/GitHub/APE_paper/data/DA-optostimulation_dataframe.csv"
+# data_path = "/home/hernandom/GitHub/APE_paper/data/DA-optostimulation_dataframe.csv"
 dao_df = pd.read_csv(data_path, index_col=0)
 
 #%%

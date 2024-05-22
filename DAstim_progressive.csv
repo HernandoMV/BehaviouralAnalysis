@@ -1,0 +1,467 @@
+AnimalID,SessionID,Ntrials,Protocol,Stim,FiberSide,FiberArea,StimSide,StimPort,Contralateral,InitialBias,ProgressionBlockIndex,BiasToStimMovement
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,75.5,-0.0
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,149.5,-5.11797209002178
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,174.5,-3.2984566376197506
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,199.5,-6.022727272727266
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,224.5,-3.3983851497744837
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,249.5,-2.6780595181216285
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,274.5,-0.13038548752834345
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,299.5,-2.393697708968645
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,324.5,0.6246836899010901
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.63553113553114,349.5,1.1161150677279892
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,75.5,0.0
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,149.5,10.470289503212541
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,174.5,12.797738730835942
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,199.5,12.160825247831852
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,224.5,9.468262732114908
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,249.5,9.735456013158363
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,274.5,7.534989968510246
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,299.5,5.374057124979764
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,324.5,5.120552132065502
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,349.5,4.4902742291903515
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,374.5,6.3974761317482916
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,399.5,7.855318332956259
+DAopto-01,merge,616.0,merge,True,Left,tStr,Right,Center,True,,424.5,6.20716853493289
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,449.5,9.536221787509398
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,474.5,10.565205093380577
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,499.5,10.751596826413852
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,524.5,6.809342717919343
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,549.5,6.212112216260245
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,574.5,5.859265215815988
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,599.5,3.7933048603819444
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr,Right,Center,True,63.09780657130888,624.5,-0.6671406290426347
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,75.5,0.0
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,149.5,17.59209854110148
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,174.5,15.983132383388146
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,199.5,15.865884409910713
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,224.5,22.871679897255348
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,249.5,19.17335080485283
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,274.5,15.968492636742546
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,299.5,15.451602151157942
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,324.5,22.89668831959662
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,349.5,24.588155923770557
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,374.5,26.493485265959933
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,399.5,30.434030210100815
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,424.5,38.088792503690314
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,449.5,38.85986379957882
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,474.5,37.387557468139335
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,499.5,39.28336156597025
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,524.5,35.718323429503556
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,549.5,32.86018755328219
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,574.5,29.405050557772526
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,599.5,27.958420522359148
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.00719189277542,624.5,22.764549297980054
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,75.5,0.0
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,149.5,-9.821142942628462
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,174.5,-8.597980693885972
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,199.5,-8.890457640498255
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,224.5,-5.9904956695572125
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,249.5,-9.209195615997615
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,274.5,-8.095511734396208
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,299.5,-7.781940009424238
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,324.5,-9.197985430168906
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,349.5,-9.173692704058485
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,374.5,-10.192660912871517
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,399.5,-6.9034945078031456
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,424.5,-3.498629524572486
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,449.5,-0.19457300493945695
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,474.5,-0.5359235671835343
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,499.5,-1.163980508538387
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,524.5,-1.9120504566884513
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,549.5,-2.8176296930252
+DAopto-03,merge,658.5,merge,True,Right,tStr,Left,Center,True,,574.5,-2.6858319975349225
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,75.5,0.0
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,149.5,2.4271850690035173
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,174.5,1.6480703667989758
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,199.5,4.871908942542376
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,224.5,6.4154662785565115
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,249.5,7.74984633294174
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,274.5,11.30854203863995
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,299.5,11.033932439467023
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,324.5,15.443115884507218
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,349.5,17.62483057587487
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,374.5,13.190397594156156
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,399.5,11.9201652781861
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,424.5,13.139504557675753
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,449.5,13.11099480583514
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,474.5,14.952207168959227
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,499.5,12.657413140820957
+DAopto-03,merge,662.0,merge,True,Left,tStr,Right,Center,True,,524.5,17.914668285294145
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr,Right,Center,True,44.870554282319,549.5,24.879191769948072
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr,Right,Center,True,44.870554282319,574.5,21.679913071948143
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr,Right,Center,True,44.870554282319,599.5,19.49050482663926
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr,Right,Center,True,44.870554282319,624.5,18.431251288394144
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,75.5,0.0
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,149.5,9.943054787039763
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,174.5,13.800851987853477
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,199.5,12.45155842427419
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,224.5,13.70760505159003
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,249.5,11.974230865208327
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,274.5,14.035539255574655
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,299.5,9.00275644548092
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,324.5,9.403784603032733
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,349.5,9.442513233977188
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,374.5,9.810597530632926
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,399.5,5.7422157550664465
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,424.5,1.38454903492498
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,449.5,3.6237381715046624
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,474.5,-0.9878109936159447
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,499.5,-3.8277828409407277
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,524.5,-4.770779055676073
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,549.5,-0.6616169962034419
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr,Right,Center,True,47.36665798695873,574.5,-3.90299792339097
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,75.5,-0.0
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,149.5,15.68564484641442
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,174.5,20.51742604374182
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,199.5,20.40388364695135
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,224.5,20.405137538596186
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,249.5,17.27935987710424
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,274.5,20.863318713163913
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,299.5,19.878726119327617
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,324.5,16.04121229333453
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,349.5,11.61749765133223
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,374.5,9.163372253208912
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,399.5,8.537854200815957
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,424.5,4.845792956695199
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.05406526083218,449.5,-1.7694338709953215
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr,Left,Center,True,,75.5,0.0
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr,Left,Center,True,,149.5,2.952779586720053
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr,Left,Center,True,,174.5,5.818306425783402
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr,Left,Center,True,,199.5,8.406154782385482
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr,Left,Center,True,,224.5,8.373889464541886
+DAopto-06,merge,513.5,merge,True,Right,tStr,Left,Center,True,,249.5,5.761038995377643
+DAopto-06,merge,513.5,merge,True,Right,tStr,Left,Center,True,,274.5,3.361238810964025
+DAopto-06,merge,513.5,merge,True,Right,tStr,Left,Center,True,,299.5,3.3060387547087835
+DAopto-06,merge,513.5,merge,True,Right,tStr,Left,Center,True,,324.5,2.653985089018885
+DAopto-06,merge,513.5,merge,True,Right,tStr,Left,Center,True,,349.5,3.4087460254553683
+DAopto-06,merge,513.5,merge,True,Right,tStr,Left,Center,True,,374.5,3.896042837424826
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr,Left,Center,True,64.63681459205756,399.5,3.4042162895786774
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr,Left,Center,True,64.63681459205756,424.5,3.401209238805137
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr,Left,Center,True,64.63681459205756,449.5,6.960221687689341
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr,Left,Center,True,64.63681459205756,474.5,6.443244234621659
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,75.5,0.0
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,149.5,2.9800852512120173
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,174.5,6.065268036995466
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,199.5,7.854649326139569
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,224.5,10.642217262539948
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,249.5,9.519701216922638
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,274.5,6.959597971874803
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,299.5,4.9406435976206104
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,324.5,-0.5431757530769517
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,349.5,-4.13377403920461
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,374.5,-3.90144393597199
+DAopto-07,merge,505.5,merge,True,Right,tStr,Left,Center,True,,399.5,-4.828384473592674
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,75.5,0.0
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,149.5,16.034054077532346
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,174.5,22.660917513858692
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,199.5,25.280149529996443
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,224.5,21.652221652221662
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,249.5,14.912630405588146
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,274.5,12.351481239348885
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,299.5,14.342806928266732
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,324.5,11.78670852025391
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,349.5,15.018315018315022
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,374.5,18.120768120768133
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,399.5,18.297374267523523
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,424.5,25.026646414114452
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,449.5,25.298322221072652
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,474.5,23.562644252299428
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr,Right,Center,True,33.974358974358964,499.5,26.123701930153544
+DAopto-07,DAopto-07 Apr11 16:32,515.0,Auditory,True,Right,tStr,Left,Center,True,48.611111111111114,424.5,-0.20984492815478006
+DAopto-08,merge,478.5,merge,True,Left,tStr,Right,Center,True,,75.5,0.0
+DAopto-08,merge,478.5,merge,True,Left,tStr,Right,Center,True,,149.5,3.310315728548815
+DAopto-08,merge,478.5,merge,True,Left,tStr,Right,Center,True,,174.5,1.9818760823438488
+DAopto-08,merge,478.5,merge,True,Left,tStr,Right,Center,True,,199.5,4.661024712879893
+DAopto-08,merge,478.5,merge,True,Left,tStr,Right,Center,True,,224.5,7.143419809290904
+DAopto-08,merge,478.5,merge,True,Left,tStr,Right,Center,True,,249.5,5.61328141340833
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,75.5,-0.0
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,149.5,-2.277256901917994
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,174.5,-1.1713336020106766
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,199.5,0.04330325617824826
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,224.5,4.070145381180318
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,249.5,4.010309230560935
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,274.5,5.8122165686296725
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,299.5,11.490350292981859
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,324.5,13.908559068333481
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr,Left,Center,True,65.10009240272397,349.5,14.498273919244824
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,274.5,7.5472164001575734
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,299.5,2.4233965372841837
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,324.5,0.9523250475872942
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,349.5,-6.794004936862088
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,374.5,-7.6148501313442125
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,399.5,-4.261354384308831
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,424.5,-0.5668674127320656
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,449.5,2.641610862107747
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,474.5,1.6419619129703094
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,499.5,2.5592772192150974
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr,Right,Center,True,58.42700156985871,524.5,-5.501672373852827
+DAopto-09,merge,496.4,merge,True,Right,tStr,Left,Center,True,,75.5,0.0
+DAopto-09,merge,496.4,merge,True,Right,tStr,Left,Center,True,,149.5,1.180145364676808
+DAopto-09,merge,496.4,merge,True,Right,tStr,Left,Center,True,,174.5,2.0904559464236705
+DAopto-09,merge,496.4,merge,True,Right,tStr,Left,Center,True,,199.5,0.131365129747131
+DAopto-09,merge,496.4,merge,True,Right,tStr,Left,Center,True,,224.5,-0.665417294585805
+DAopto-09,merge,539.75,merge,True,Right,tStr,Left,Center,True,,249.5,0.41600872198265826
+DAopto-09,merge,539.75,merge,True,Right,tStr,Left,Center,True,,274.5,1.572757210446433
+DAopto-09,merge,539.75,merge,True,Right,tStr,Left,Center,True,,299.5,3.1005350473073534
+DAopto-09,merge,539.75,merge,True,Right,tStr,Left,Center,True,,324.5,1.8513783721055663
+DAopto-09,merge,539.75,merge,True,Right,tStr,Left,Center,True,,349.5,2.4658755581888574
+DAopto-09,merge,539.75,merge,True,Right,tStr,Left,Center,True,,374.5,2.9626342152398477
+DAopto-09,merge,615.5,merge,True,Right,tStr,Left,Center,True,,399.5,-3.6735999817240277
+DAopto-09,merge,615.5,merge,True,Right,tStr,Left,Center,True,,424.5,-6.056013805972942
+DAopto-09,merge,615.5,merge,True,Right,tStr,Left,Center,True,,449.5,-6.317056954053861
+DAopto-09,merge,615.5,merge,True,Right,tStr,Left,Center,True,,474.5,-5.598706482107438
+DAopto-09,merge,615.5,merge,True,Right,tStr,Left,Center,True,,499.5,-5.777703995777959
+DAopto-09,merge,615.5,merge,True,Right,tStr,Left,Center,True,,524.5,-6.023893228006447
+DAopto-09,DAopto-09 Apr08 16:19,630.0,Aud_Psycho,True,Right,tStr,Left,Center,True,55.04595404595405,549.5,-5.369477083762803
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,75.5,0.0
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,149.5,1.5560080764360578
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,174.5,-1.1347004904235902
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,199.5,-0.06038671098244208
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,224.5,-0.577722470152878
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,249.5,0.7951477194403012
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,274.5,-1.0896278927725795
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,299.5,-1.3890855111626053
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,324.5,-1.8899164298623603
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,349.5,-2.237114637427613
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,374.5,-4.693492653566629
+DAopto-10,merge,506.0,merge,True,Right,tStr,Left,Center,True,,399.5,-7.909341038004296
+DAopto-10,DAopto-10 Apr08 16:22,517.0,Auditory,True,Right,tStr,Left,Center,True,50.38610038610038,424.5,-0.76796586214396
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr,Right,Center,True,50.416557127083436,75.5,0.0
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr,Right,Center,True,50.416557127083436,149.5,4.70747147333114
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr,Right,Center,True,50.416557127083436,174.5,2.715065218824634
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr,Right,Center,True,50.416557127083436,199.5,-1.353871446750702
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr,Right,Center,True,50.416557127083436,224.5,-0.7380282715359456
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr,Right,Center,True,50.416557127083436,249.5,-4.960465599563335
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,75.5,-0.0
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,149.5,-0.6974839385455525
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,174.5,-2.0062649408250124
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,199.5,-0.5380635638443252
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,224.5,-5.591315756636554
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,249.5,-3.8914624500826633
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,274.5,-6.123827644964443
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,299.5,-7.4193627649135365
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,324.5,-6.887564718741338
+DAopto-01,DAopto-01 Apr05 14:04,432.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.64477261810729,349.5,-4.103501332621327
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,75.5,0.0
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,149.5,-2.2456088953847484
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,174.5,-0.4740374881142557
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,199.5,-1.9225166875885975
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,224.5,-2.2982697942130024
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,249.5,-1.3543360742399209
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,274.5,-2.346172236378056
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,299.5,-3.0716159211984255
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,324.5,-3.746777320942474
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,349.5,-2.493075562240339
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,374.5,-0.972856733582077
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,399.5,-2.0081337071126057
+DAopto-01,merge,616.0,merge,True,Left,tStr_shuff,Right,Center,True,,424.5,-1.4585403080489918
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,449.5,-2.6208810109739034
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,474.5,-2.231961180098793
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,499.5,-3.054225027024671
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,524.5,-5.115189125582766
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,549.5,-2.5677586523595437
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,574.5,-1.4220875230336247
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,599.5,-2.0241898992451866
+DAopto-01,DAopto-01 Apr07 12:50,726.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,68.75583566760038,624.5,-2.4712762297901634
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,75.5,0.0
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,149.5,-4.451440982700191
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,174.5,-3.051523044510418
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,199.5,-5.458397312142722
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,224.5,-5.50384798669171
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,249.5,-2.341456409160628
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,274.5,-0.18167031179400794
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,299.5,-3.54016605416183
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,324.5,-2.5812243917992106
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,349.5,-3.351094436759155
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,374.5,-0.758762015907223
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,399.5,-5.184933235436517
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,424.5,-1.9939434087718269
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,449.5,2.218643010859836
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,474.5,2.8718078070705957
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,499.5,6.156968601869437
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,524.5,7.142079946498512
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,549.5,8.995262468113609
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,574.5,11.372178313156297
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,599.5,7.151684720809143
+DAopto-02,DAopto-02 Apr05 14:11,826.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,70.31224024311582,624.5,6.176837195906813
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,75.5,0.0
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,149.5,2.308704547969242
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,174.5,-0.5802369868769865
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,199.5,-1.8206419376096008
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,224.5,-1.089914322256675
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,249.5,-3.510351245414604
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,274.5,-6.494447029637307
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,299.5,-7.865870582021323
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,324.5,-6.62503492459696
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,349.5,-6.6458880408243886
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,374.5,-7.574866802428193
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,399.5,-6.7933709470303505
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,424.5,-8.52180773895386
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,449.5,-11.479190085405115
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,474.5,-9.623408932684352
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,499.5,-10.27386507622898
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,524.5,-8.958582905619608
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,549.5,-7.139330438933342
+DAopto-03,merge,658.5,merge,True,Right,tStr_shuff,Left,Center,True,,574.5,-4.671007968093182
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,75.5,0.0
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,149.5,0.9526789000473208
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,174.5,-0.028384119059186474
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,199.5,0.6538725060468948
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,224.5,-2.1481621779145854
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,249.5,-1.0710552706559398
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,274.5,-3.5852101111701593
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,299.5,-0.9443781060875693
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,324.5,-1.1127865065320073
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,349.5,0.5691385879318176
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,374.5,2.403270353656879
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,399.5,1.7911241226799106
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,424.5,2.5205966512919318
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,449.5,-0.3693651958559805
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,474.5,1.9012444394262111
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,499.5,1.0013200443764916
+DAopto-03,merge,662.0,merge,True,Left,tStr_shuff,Right,Center,True,,524.5,2.1877972003932236
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,64.20198413333425,549.5,6.468319052189216
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,64.20198413333425,574.5,9.145006431946612
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,64.20198413333425,599.5,9.56361603385811
+DAopto-03,DAopto-03 Apr07 13:27,702.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,64.20198413333425,624.5,7.575115057464629
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,75.5,0.0
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,149.5,-0.7622159873712704
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,174.5,-1.0290234628253572
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,199.5,1.9966481643500344
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,224.5,-0.8832866378536792
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,249.5,-2.378029511079525
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,274.5,-5.220603603653615
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,299.5,-4.958814477448016
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,324.5,-5.777111631966164
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,349.5,-6.057744532899797
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,374.5,-4.517578694597319
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,399.5,-1.3229141458954956
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,424.5,1.5718611247632452
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,449.5,3.331885951558263
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,474.5,7.098265687673994
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,499.5,5.286490597049607
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,524.5,4.649743952057079
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,549.5,0.2351203648244251
+DAopto-04,DAopto-04 Apr07 13:31,658.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.07579790809605,574.5,-1.4764043301146828
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,75.5,-0.0
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,149.5,0.37822416415959026
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,174.5,-0.03582396439540503
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,199.5,-4.460670908039326
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,224.5,-4.399727952359541
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,249.5,-6.380054891169628
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,274.5,-7.487069321655788
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,299.5,-7.744258542577867
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,324.5,-7.15155014068057
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,349.5,-4.361824819860907
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,374.5,-5.195579728106701
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,399.5,-5.183368219082503
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,424.5,-3.968379974571924
+DAopto-05,DAopto-05 Apr05 15:47,541.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,45.55697120914512,449.5,-3.205063250072257
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr_shuff,Left,Center,True,,75.5,0.0
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr_shuff,Left,Center,True,,149.5,-1.1522161527716481
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr_shuff,Left,Center,True,,174.5,-1.1738874634799668
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr_shuff,Left,Center,True,,199.5,-1.841596677952457
+DAopto-06,merge,444.6666666666667,merge,True,Right,tStr_shuff,Left,Center,True,,224.5,-2.0859542351683587
+DAopto-06,merge,513.5,merge,True,Right,tStr_shuff,Left,Center,True,,249.5,-1.5518611507513569
+DAopto-06,merge,513.5,merge,True,Right,tStr_shuff,Left,Center,True,,274.5,-2.157722752632104
+DAopto-06,merge,513.5,merge,True,Right,tStr_shuff,Left,Center,True,,299.5,-0.7805611769774856
+DAopto-06,merge,513.5,merge,True,Right,tStr_shuff,Left,Center,True,,324.5,0.3622181127068522
+DAopto-06,merge,513.5,merge,True,Right,tStr_shuff,Left,Center,True,,349.5,1.1405809296363891
+DAopto-06,merge,513.5,merge,True,Right,tStr_shuff,Left,Center,True,,374.5,0.8491213544174485
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,60.887189804151326,399.5,-0.850443325516892
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,60.887189804151326,424.5,1.2869275466882542
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,60.887189804151326,449.5,-0.7105936461512385
+DAopto-06,DAopto-06 Apr07 16:22,563.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,60.887189804151326,474.5,-1.084887564345479
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,75.5,0.0
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,149.5,0.9719761669545122
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,174.5,0.16260005022276758
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,199.5,-0.5148728839850989
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,224.5,0.8103918894750386
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,249.5,-0.05404397270816119
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,274.5,-2.074297708483254
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,299.5,-3.3322207776634727
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,324.5,-2.9753616963177834
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,349.5,-2.6082869517385987
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,374.5,-3.810092107321129
+DAopto-07,merge,505.5,merge,True,Right,tStr_shuff,Left,Center,True,,399.5,-2.6758702191188455
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,75.5,0.0
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,149.5,5.587879106377514
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,174.5,7.135766754587479
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,199.5,3.60596938917368
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,224.5,6.05938589647873
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,249.5,3.7972733118208737
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,274.5,1.2944030477565889
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,299.5,-0.06380868738406775
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,324.5,-5.329225342448744
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,349.5,-2.0232634275591437
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,374.5,-4.482694885931274
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,399.5,-5.141028764604144
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,424.5,-4.979167066930529
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,449.5,-5.324978604274314
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,474.5,-3.5292519565739866
+DAopto-07,DAopto-07 Apr07 15:06,597.0,Auditory,True,Left,tStr_shuff,Right,Center,True,48.92283587935762,499.5,0.563442466049743
+DAopto-07,DAopto-07 Apr11 16:32,515.0,Auditory,True,Right,tStr_shuff,Left,Center,True,45.138888888888886,424.5,-1.987302603499785
+DAopto-08,merge,478.5,merge,True,Left,tStr_shuff,Right,Center,True,,75.5,0.0
+DAopto-08,merge,478.5,merge,True,Left,tStr_shuff,Right,Center,True,,149.5,-1.2076691561288868
+DAopto-08,merge,478.5,merge,True,Left,tStr_shuff,Right,Center,True,,174.5,-2.089558768655966
+DAopto-08,merge,478.5,merge,True,Left,tStr_shuff,Right,Center,True,,199.5,-3.2553560488264637
+DAopto-08,merge,478.5,merge,True,Left,tStr_shuff,Right,Center,True,,224.5,-3.74221872851464
+DAopto-08,merge,478.5,merge,True,Left,tStr_shuff,Right,Center,True,,249.5,-1.7530201421726268
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,75.5,-0.0
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,149.5,5.490568954854659
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,174.5,9.11256606287661
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,199.5,10.751212553070125
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,224.5,10.012404004664056
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,249.5,6.565682229216058
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,274.5,5.929801585706052
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,299.5,3.963196565584873
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,324.5,5.9522654911767034
+DAopto-08,DAopto-08 Apr07 15:08,444.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,65.09090909090908,349.5,6.570878856593133
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,274.5,5.312521413002273
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,299.5,2.5734763000075773
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,324.5,3.6449826026063263
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,349.5,6.457111380015959
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,374.5,8.14283695229615
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,399.5,9.384989315633824
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,424.5,6.832653840149682
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,449.5,7.430890222283153
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,474.5,4.182135925473936
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,499.5,4.624462922148751
+DAopto-08,DAopto-08 Apr08 15:33,613.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,55.937993944655936,524.5,1.5478856093014315
+DAopto-09,merge,496.4,merge,True,Right,tStr_shuff,Left,Center,True,,75.5,0.0
+DAopto-09,merge,496.4,merge,True,Right,tStr_shuff,Left,Center,True,,149.5,0.7892365512055661
+DAopto-09,merge,496.4,merge,True,Right,tStr_shuff,Left,Center,True,,174.5,0.4615000363110255
+DAopto-09,merge,496.4,merge,True,Right,tStr_shuff,Left,Center,True,,199.5,2.161227994175712
+DAopto-09,merge,496.4,merge,True,Right,tStr_shuff,Left,Center,True,,224.5,2.9442335978077594
+DAopto-09,merge,539.75,merge,True,Right,tStr_shuff,Left,Center,True,,249.5,0.9608757044981591
+DAopto-09,merge,539.75,merge,True,Right,tStr_shuff,Left,Center,True,,274.5,1.2692172570550557
+DAopto-09,merge,539.75,merge,True,Right,tStr_shuff,Left,Center,True,,299.5,1.1479187183389339
+DAopto-09,merge,539.75,merge,True,Right,tStr_shuff,Left,Center,True,,324.5,1.680147020950903
+DAopto-09,merge,539.75,merge,True,Right,tStr_shuff,Left,Center,True,,349.5,0.8663590656961233
+DAopto-09,merge,539.75,merge,True,Right,tStr_shuff,Left,Center,True,,374.5,-1.412334858491814
+DAopto-09,merge,615.5,merge,True,Right,tStr_shuff,Left,Center,True,,399.5,-2.3047373259524413
+DAopto-09,merge,615.5,merge,True,Right,tStr_shuff,Left,Center,True,,424.5,-2.220464455965285
+DAopto-09,merge,615.5,merge,True,Right,tStr_shuff,Left,Center,True,,449.5,-5.032133969784194
+DAopto-09,merge,615.5,merge,True,Right,tStr_shuff,Left,Center,True,,474.5,-3.109074766568078
+DAopto-09,merge,615.5,merge,True,Right,tStr_shuff,Left,Center,True,,499.5,-2.145374972678205
+DAopto-09,merge,615.5,merge,True,Right,tStr_shuff,Left,Center,True,,524.5,-1.7126341348549659
+DAopto-09,DAopto-09 Apr08 16:19,630.0,Aud_Psycho,True,Right,tStr_shuff,Left,Center,True,63.272700384501626,549.5,-1.4367051168293372
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,75.5,0.0
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,149.5,-2.483926554967212
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,174.5,-5.238394384467409
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,199.5,-2.9975366581861067
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,224.5,-2.1953726235690745
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,249.5,-2.2479041562073547
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,274.5,-3.3681926661177783
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,299.5,-3.326371088072271
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,324.5,-2.4645400364709786
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,349.5,-1.4031350762706083
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,374.5,-3.6180467460694956
+DAopto-10,merge,506.0,merge,True,Right,tStr_shuff,Left,Center,True,,399.5,-3.8283262472155357
+DAopto-10,DAopto-10 Apr08 16:22,517.0,Auditory,True,Right,tStr_shuff,Left,Center,True,45.424710424710426,424.5,-4.445853538780668
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.288394145537,75.5,0.0
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.288394145537,149.5,0.23182909527447748
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.288394145537,174.5,-1.7277030909657825
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.288394145537,199.5,-3.6847792730145557
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.288394145537,224.5,-3.575584079785756
+DAopto-10,DAopto-10 Apr12 15:54,338.0,Aud_Psycho,True,Left,tStr_shuff,Right,Center,True,51.288394145537,249.5,-7.008296557649473
