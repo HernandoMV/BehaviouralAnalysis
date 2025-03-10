@@ -4,27 +4,29 @@ Dopamine_optostimulation_progressive.py
 Test whether optostimulation of dopamine axons produces a progressive
 effect on the bias
 """
+# %%
+from ast import literal_eval
+
+# %matplotlib inline
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+from scipy import stats
 
 #%% Import libraries
 # %load_ext autoreload
 # %autoreload 2
 from utils import custom_functions as cuf
-from matplotlib import pyplot as plt
-# %matplotlib inline
-import numpy as np
-import seaborn as sns
-import pandas as pd
-from scipy import stats
-from ast import literal_eval
 
 # %%
 # Define how to group the trials
 # trials w/o stimulation
 ini_trials = 150
 # size of the window
-trials_window_size = 150
+trials_window_size = 25
 # sampling step
-sampling_step = 25
+sampling_step = 5
 
 # %% Get data
 data_path = "/mnt/c/Users/herny/Documents/GitHub/APE_paper/data/DA-optostimulation_dataframe.csv"
@@ -263,12 +265,15 @@ def find_indexes_of_repeated_cases(opto_df_sel, same_columns):
     for index in opto_df_sel.index:
         data = opto_df_sel.loc[index][same_columns].values
         i_list = []
-        for i in opto_df_sel.index:
-            if np.array_equal(data, opto_df_sel.loc[i][same_columns].values):
+        # search only for the same animal
+        same_animal_df = opto_df_sel[opto_df_sel.AnimalID == opto_df_sel.loc[index].AnimalID]
+        for i in same_animal_df.index:
+            if np.array_equal(data, same_animal_df.loc[i][same_columns].values):
                 i_list.append(i)
         if len(i_list) > 1:
             if i_list not in equal_indexes:
                 equal_indexes.append(i_list)
+        print(index)
 
     return equal_indexes
 
@@ -365,6 +370,14 @@ all_data = pd.concat([ods_merge, shuff_ods_merge], axis=0)
 # remove NAc for now
 all_data = all_data[all_data.FiberArea != 'NAc']
 
+
+# %%
+# save as csv
+all_data.to_csv('DAstim_progressive.csv')
+
+# %%
+# reset index
+all_data_ri = all_data.reset_index(drop=False, inplace=False)
 # %%
 # # plot it together with the real tStr data
 # sns.lineplot(data=all_data,
@@ -375,7 +388,7 @@ all_data = all_data[all_data.FiberArea != 'NAc']
 
 # %%
 # get the number of events in each block
-events_per_trial_block = all_data[all_data.FiberArea == 'tStr']['ProgressionBlockIndex'].value_counts()
+events_per_trial_block = all_data_ri[all_data_ri.FiberArea == 'tStr']['ProgressionBlockIndex'].value_counts()
 events_per_trial_block.sort_index(inplace=True)
 # plot it
 sns.lineplot(x=events_per_trial_block.index, y=events_per_trial_block.values)
@@ -400,11 +413,11 @@ pval_dict = {}
 
 for block in etb_mask:
     # get the real data
-    real_data = all_data[np.logical_and(all_data.FiberArea == 'tStr',
-                                        all_data.ProgressionBlockIndex == block)]
+    real_data = all_data_ri[np.logical_and(all_data_ri.FiberArea == 'tStr',
+                                        all_data_ri.ProgressionBlockIndex == block)]
     # get the shuffled data
-    shuff_data = all_data[np.logical_and(all_data.FiberArea == 'tStr_shuff',
-                                         all_data.ProgressionBlockIndex == block)]
+    shuff_data = all_data_ri[np.logical_and(all_data_ri.FiberArea == 'tStr_shuff',
+                                         all_data_ri.ProgressionBlockIndex == block)]
     # compare the two distributions
     pval = stats.ranksums(real_data.BiasToStimMovement.values,
                           shuff_data.BiasToStimMovement.values,
@@ -416,7 +429,7 @@ for block in etb_mask:
 # plot the significant pvalues on top of the graph
 significance_mask = np.array(list(pval_dict.values())) < 0.05
 
-biasplot = sns.lineplot(data=all_data[all_data.ProgressionBlockIndex.isin(etb_mask)],
+biasplot = sns.lineplot(data=all_data_ri[all_data_ri.ProgressionBlockIndex.isin(etb_mask)],
                         x="ProgressionBlockIndex",
                         y="BiasToStimMovement",
                         hue="FiberArea",
